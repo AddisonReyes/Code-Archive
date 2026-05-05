@@ -23,6 +23,10 @@ services:
       - .:/app
     environment:
       MONGO_URL: mongodb://admin:123456@mongodb:27017/store?authSource=admin&retryWrites=true&w=majority
+      EMAILJS_PRIVATE_KEY: baaaaaaaaaa
+      EMAILJS_PUBLIC_KEY: baaaaaaaaaa
+      EMAILJS_SERVICE_ID: baaaaaaaaaa
+      EMAILJS_TEMPLATE_ID: baaaaaaaaaa
       BACKEND_PORT: 3000
       NODE_ENV: prod
     command: npm run start
