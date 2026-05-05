@@ -1,5 +1,7 @@
 import "./globals.css";
-import Link from "next/link";
+
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Create Next App",
@@ -8,18 +10,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>
-        <header style={{ padding: "2rem", borderBottom: "1px solid #ccc" }}>
-          <nav>
-            <ul style={{ display: "flex", gap: "1rem", listStyle: "none" }}>
-              <Link href="/">Home</Link>
-              <Link href="/about">About</Link>
-              <Link href="/about/team">Team</Link>
-            </ul>
-          </nav>
-        </header>
+    <html lang="en" className="h-full">
+      <body className="flex flex-col min-h-screen">
+        <Navigation />
         <main style={{ padding: "2rem" }}>{children}</main>
+        <Footer />
       </body>
     </html>
   );
