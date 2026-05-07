@@ -1,10 +1,13 @@
+import { getBaseUrl } from "@/app/utils";
+
 export const metadata = {
   title: "Courses",
   description: "List of available courses",
 };
 
 async function getCourses() {
-  const res = await fetch("http://localhost:3000/api/courses", {
+  const url = await getBaseUrl();
+  const res = await fetch(`${url}/api/courses`, {
     next: { revalidate: 60 },
   });
   return res.json();
