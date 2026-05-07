@@ -20,6 +20,9 @@ export default function Navigation() {
           <li>
             <Link href="/dashboard">Dashboard</Link>
           </li>
+          <li>
+            <Link href="/counter">Counter</Link>
+          </li>
         </ul>
       </nav>
     </header>
