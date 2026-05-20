@@ -1,0 +1,10 @@
+"""
+Pydantic schema for the JWT token response.
+"""
+
+from pydantic import BaseModel
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
