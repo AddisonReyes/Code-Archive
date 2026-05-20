@@ -1,6 +1,8 @@
-def main():
-    print("Hello from fastapi-basics!")
+from fastapi import FastAPI
+
+app = FastAPI()
 
 
-if __name__ == "__main__":
-    main()
+@app.get("/")
+def home():
+    return {"message": "Welcome to the Randomizer API!"}
