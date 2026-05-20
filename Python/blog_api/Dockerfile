@@ -28,6 +28,5 @@ COPY . .
 EXPOSE 8000
 
 # Ensure alembic uses psycopg2 for sync migrations at runtime (already handled in env.py)
-
-# Entrypoint: run migrations, then start the server
-CMD ["bash", "-lc", "uv run alembic upgrade head && uv run uvicorn main:app --host 0.0.0.0 --port 8000"]
+# Entrypoint: wait for Postgres, run migrations, then start the server
+CMD ["bash", "-lc", "uv run python -m app.scripts.wait_for_db && uv run alembic upgrade head && uv run uvicorn main:app --host 0.0.0.0 --port 8000"]

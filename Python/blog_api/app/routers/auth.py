@@ -1,11 +1,4 @@
-"""
-Authentication router.
-
-Endpoints
----------
-POST /auth/register  – Create a new user account.
-POST /auth/login     – Exchange credentials for a JWT access token.
-"""
+from typing import cast
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
@@ -24,14 +17,8 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
     "/register",
     response_model=UserPublic,
     status_code=status.HTTP_201_CREATED,
-    summary="Register a new account",
-    description=(
-        "Create a new user account with a unique email and username. "
-        "The password is hashed with bcrypt before storage."
-    ),
 )
 async def register(payload: UserCreate, db: AsyncSession = Depends(get_db)) -> UserPublic:
-    # Reject duplicate email or username before trying to insert.
     if await get_user_by_email(db, payload.email):
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -44,24 +31,17 @@ async def register(payload: UserCreate, db: AsyncSession = Depends(get_db)) -> U
         )
 
     user = await create_user(db, payload)
-    return user  # type: ignore[return-value]
+    return cast(UserPublic, user)
 
 
 @router.post(
     "/login",
     response_model=Token,
-    summary="Obtain a JWT access token",
-    description=(
-        "Exchange a valid email + password for a Bearer JWT access token. "
-        "Include the token in the ``Authorization: Bearer <token>`` header "
-        "to access protected endpoints."
-    ),
 )
 async def login(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: AsyncSession = Depends(get_db),
 ) -> Token:
-    # ``username`` field of the OAuth2 form is used as the email.
     user = await get_user_by_email(db, form_data.username)
 
     if not user or not verify_password(form_data.password, user.hashed_password):

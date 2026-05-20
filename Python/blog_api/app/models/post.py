@@ -1,32 +1,16 @@
-"""
-Post ORM model.
-
-Maps to the ``posts`` table in PostgreSQL.
-"""
-
 from datetime import datetime, timezone
+from typing import TYPE_CHECKING
 
 from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.session import Base
 
+if TYPE_CHECKING:
+    from app.models.user import User
+
 
 class Post(Base):
-    """
-    Represents a blog post written by a User.
-
-    Columns
-    -------
-    id         : Primary key.
-    title      : Short headline (max 255 chars).
-    content    : Full body of the post (unlimited text).
-    published  : Whether the post is publicly visible.
-    author_id  : FK → users.id.  Deleting a user cascades to their posts.
-    created_at : UTC timestamp set at insert time.
-    updated_at : UTC timestamp refreshed on every update.
-    """
-
     __tablename__ = "posts"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
@@ -48,8 +32,7 @@ class Post(Base):
         nullable=False,
     )
 
-    # Many posts → one author.  ``back_populates`` links to User.posts.
-    author: Mapped["User"] = relationship("User", back_populates="posts")  # noqa: F821
+    author: Mapped["User"] = relationship("User", back_populates="posts")
 
-    def __repr__(self) -> str:  # pragma: no cover
+    def __repr__(self) -> str:
         return f"<Post id={self.id} title={self.title!r}>"

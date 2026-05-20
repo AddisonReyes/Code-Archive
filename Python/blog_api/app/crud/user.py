@@ -7,8 +7,10 @@ Business logic (HTTP status codes, etc.) stays in the routers.
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from app.core.security import hash_password
+from app.models.post import Post
 from app.models.user import User
 from app.schemas.user import UserCreate, UserUpdate
 
@@ -18,8 +20,16 @@ from app.schemas.user import UserCreate, UserUpdate
 # ---------------------------------------------------------------------------
 
 async def get_user_by_id(db: AsyncSession, user_id: int) -> User | None:
-    """Return the User with the given *user_id*, or None if not found."""
     result = await db.execute(select(User).where(User.id == user_id))
+    return result.scalar_one_or_none()
+
+
+async def get_user_with_posts(db: AsyncSession, user_id: int) -> User | None:
+    result = await db.execute(
+        select(User)
+        .options(selectinload(User.posts))
+        .where(User.id == user_id)
+    )
     return result.scalar_one_or_none()
 
 
