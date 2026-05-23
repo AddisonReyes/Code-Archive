@@ -5,6 +5,8 @@ from fastapi import FastAPI, HTTPException, Query
 
 app = FastAPI()
 
+items_db = []
+
 
 @app.get("/")
 def home():
@@ -48,3 +50,27 @@ def get_random_number_between(
         "max_value": max_value,
         "random_number": random.randint(min_value, max_value),
     }
+
+
+@app.get("/items")
+def get_randomized_items():
+    randomized = items_db.copy()
+    random.shuffle(randomized)
+    return {
+        "original_order": items_db,
+        "randomized_order": randomized,
+        "count": len(items_db),
+    }
+
+
+@app.post("/items")
+def add_item(body: dict):
+    item_name = body.get("name")
+    if not item_name:
+        raise HTTPException(status_code=400, detail="'name' field is required")
+
+    if item_name in items_db:
+        raise HTTPException(status_code=400, detail="Item already exists")
+
+    items_db.append(item_name)
+    return {"message": "Item added successfully", "item": item_name}
