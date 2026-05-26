@@ -1,16 +1,43 @@
 import random
-from typing import Annotated
+from typing import Annotated, List
+
 
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-app = FastAPI()
+tags_metadata = [
+    {
+        "name": "Random Playground",
+        "description": "Generate random numbers",
+    },
+    {
+        "name": "Random Items Management",
+        "description": "Create, shuffle, read, update and delete items",
+    },
+]
 
-items_db = []
+app = FastAPI(
+    title="Randomizer API",
+    description="Shuffle lists, pick random items, and generate random numbers.",
+    version="1.0.0",
+    openapi_tags=tags_metadata,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "https://example.com"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
 
 
 class Item(BaseModel):
     name: str = Field(min_length=1, max_length=100, description="The item name")
+
+
+items_db: List[Item] = []
 
 
 class ItemResponse(BaseModel):
@@ -36,13 +63,13 @@ class ItemDeleteResponse(BaseModel):
     remaining_items_count: int
 
 
-@app.get("/")
-def home():
+@app.get("/", tags=["Random Playground"])
+async def home():
     return {"message": "Welcome to the Randomizer API!"}
 
 
 @app.get("/random/{max_value}")
-def get_random_number(max_value: int):
+async def get_random_number(max_value: int):
     return {"max_value": max_value, "random_number": random.randint(1, max_value)}
 
 
