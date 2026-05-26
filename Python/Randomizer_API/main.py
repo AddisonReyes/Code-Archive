@@ -74,3 +74,54 @@ def add_item(body: dict):
 
     items_db.append(item_name)
     return {"message": "Item added successfully", "item": item_name}
+
+
+@app.get("/items")
+def get_randomized_items():
+    randomized = items_db.copy()
+    random.shuffle(randomized)
+    return {
+        "original_order": items_db,
+        "randomized_order": randomized,
+        "count": len(items_db),
+    }
+
+
+@app.put("/items/{update_item_name}")
+def update_item(update_item_name: str, body: dict):
+    if update_item_name not in items_db:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    new_name = body.get("name")
+    if not new_name:
+        raise HTTPException(
+            status_code=400, detail="'name' field is required in request body"
+        )
+
+    if new_name in items_db:
+        raise HTTPException(
+            status_code=409, detail="An item with that name already exists"
+        )
+
+    index = items_db.index(update_item_name)
+    items_db[index] = new_name
+
+    return {
+        "message": "Item updated successfully",
+        "old_item": update_item_name,
+        "new_item": new_name,
+    }
+
+
+@app.delete("/items/{item}")
+def delete_item(item: str):
+    if item not in items_db:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    items_db.remove(item)
+
+    return {
+        "message": "Item deleted successfully",
+        "deleted_item": item,
+        "remaining_items_count": len(items_db),
+    }
