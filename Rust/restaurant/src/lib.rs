@@ -18,6 +18,8 @@ mod front_of_house {
     }
 }
 
+use crate::front_of_house::hosting;
+
 #[allow(dead_code)]
 fn deliver_order() {}
 
@@ -67,6 +69,8 @@ pub fn eat_at_restaurant() {
     crate::front_of_house::hosting::add_to_waitlist();
 
     // Relative path
-    #[allow(unused)]
     front_of_house::hosting::add_to_waitlist();
+
+    // Shortcut path
+    hosting::add_to_waitlist();
 }
