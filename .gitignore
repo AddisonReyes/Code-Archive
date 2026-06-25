@@ -178,3 +178,33 @@ tests/baselines/reference/dt
 TEST-results.xml
 /lib/
 *.tsbuildinfo
+
+# SQL
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Oo]bj/
+out/
+# SQL Server files
+*.mdf
+*.ldf
+*.ndf
+# Business Intelligence projects
+*.rdl.data
+*.bim.layout
+*.bim_*.settings
+# Ignore bin and obj directories
+bin/
+obj/
+# Ignore other common files
+*.log
+*.tmp
