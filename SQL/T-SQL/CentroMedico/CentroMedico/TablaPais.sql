@@ -1,0 +1,4 @@
+CREATE TABLE dbo.Pais (
+	idPais CHAR(3) PRIMARY KEY,
+	pais VARCHAR(30) NOT NULL,
+);

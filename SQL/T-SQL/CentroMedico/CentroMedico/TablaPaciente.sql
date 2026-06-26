@@ -4,9 +4,8 @@ CREATE TABLE dbo.Paciente (
 	apellido VARCHAR(50) NOT NULL,
 	fechaNacimiento DATE NOT NULL,
 	domicilio VARCHAR(50) NOT NULL,
+	idPais CHAR(3) NOT NULL,
 	telefono VARCHAR(20),
 	email VARCHAR(30) NOT NULL,
 	observacion VARCHAR(1000)
 );
-
-DROP TABLE IF EXISTS dbo.Paciente;
