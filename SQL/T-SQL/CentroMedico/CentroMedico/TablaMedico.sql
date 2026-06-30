@@ -1,0 +1,5 @@
+CREATE TABLE Medico (
+	idMedico INT PRIMARY KEY IDENTITY(1,1),
+	nombre VARCHAR(50) NOT NULL,
+	apellido VARCHAR(50) NOT NULL,
+);

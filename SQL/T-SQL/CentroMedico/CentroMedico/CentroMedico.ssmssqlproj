@@ -33,11 +33,47 @@
           <AssociatedConnUserName />
           <FullPath>HolaMundo.sql</FullPath>
         </FileNode>
+        <FileNode Name="TablaHistoria.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>TablaHistoria.sql</FullPath>
+        </FileNode>
+        <FileNode Name="TablaHistoriaPaciente.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>TablaHistoriaPaciente.sql</FullPath>
+        </FileNode>
         <FileNode Name="TablaPaciente.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>TablaPaciente.sql</FullPath>
+        </FileNode>
+        <FileNode Name="TablaPais.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>TablaPais.sql</FullPath>
+        </FileNode>
+        <FileNode Name="TablaTurno.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>TablaTurno.sql</FullPath>
+        </FileNode>
+        <FileNode Name="TablaTurnoEstado.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>TablaTurnoEstado.sql</FullPath>
+        </FileNode>
+        <FileNode Name="TablaTurnoPaciente.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>TablaTurnoPaciente.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>

@@ -1,0 +1,4 @@
+CREATE TABLE Concepto (
+	idConcepto TINYINT PRIMARY KEY IDENTITY(1,1),
+	descripcion VARCHAR(100)
+);
