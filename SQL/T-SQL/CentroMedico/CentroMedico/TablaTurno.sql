@@ -1,6 +1,10 @@
-CREATE TABLE dbo.Turno (
-	idTurno INT PRIMARY KEY IDENTITY(1,1),
-	fechaTurno DATE NOT NULL,
-	estado SMALLINT NOT NULL,
-	observacion VARCHAR(300)
+CREATE TABLE dbo.Turno 
+(
+	IdTurno INT IDENTITY(1,1) NOT NULL,
+	FechaTurno DATE NOT NULL,
+	Estado SMALLINT NOT NULL,
+	Observacion VARCHAR(300) NULL,
+
+	CONSTRAINT PK_Turno
+		PRIMARY KEY CLUSTERED (IdTurno),
 );

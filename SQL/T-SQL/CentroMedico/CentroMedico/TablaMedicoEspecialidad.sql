@@ -1,7 +1,9 @@
-CREATE TABLE MedicoEspecialidad (
-	idMedico INT NOT NULL,
-	idEspecialidad INT NOT NULL,
-	descripcion VARCHAR(50) NULL,
+CREATE TABLE dbo.MedicoEspecialidad 
+(
+	IdMedico INT NOT NULL,
+	IdEspecialidad INT NOT NULL,
+	Descripcion VARCHAR(50) NULL,
 
-	CONSTRAINT PK_MedicoEspecialidad PRIMARY KEY (idMedico, idEspecialidad)
+	CONSTRAINT PK_MedicoEspecialidad 
+		PRIMARY KEY CLUSTERED (idMedico, idEspecialidad)
 );

@@ -1,4 +1,8 @@
-CREATE TABLE Concepto (
-	idConcepto TINYINT PRIMARY KEY IDENTITY(1,1),
-	descripcion VARCHAR(100)
+CREATE TABLE dbo.Concepto 
+(
+	IdConcepto TINYINT IDENTITY(1,1),
+	Descripcion VARCHAR(100),
+
+	CONSTRAINT PK_Concepto
+		PRIMARY KEY CLUSTERED (IdConcepto),
 );

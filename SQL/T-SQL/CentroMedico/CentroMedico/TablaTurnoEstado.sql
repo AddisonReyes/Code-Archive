@@ -1,5 +1,9 @@
-CREATE TABLE dbo.TurnoEstado (
-	idEstado SMALLINT PRIMARY KEY,
-	descripcion VARCHAR(50) NULL
+CREATE TABLE dbo.TurnoEstado
+(
+	IdEstado SMALLINT NOT NULL,
+	Descripcion VARCHAR(50) NULL,
+
+	CONSTRAINT PK_TurnoEstado
+		PRIMARY KEY CLUSTERED (IdEstado),
 );
 

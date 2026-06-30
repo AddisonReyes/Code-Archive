@@ -33,6 +33,18 @@
           <AssociatedConnUserName />
           <FullPath>HolaMundo.sql</FullPath>
         </FileNode>
+        <FileNode Name="TablaConcepto.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>TablaConcepto.sql</FullPath>
+        </FileNode>
+        <FileNode Name="TablaEspecialidad.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>TablaEspecialidad.sql</FullPath>
+        </FileNode>
         <FileNode Name="TablaHistoria.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
@@ -45,11 +57,35 @@
           <AssociatedConnUserName />
           <FullPath>TablaHistoriaPaciente.sql</FullPath>
         </FileNode>
+        <FileNode Name="TablaMedico.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>TablaMedico.sql</FullPath>
+        </FileNode>
+        <FileNode Name="TablaMedicoEspecialidad.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>TablaMedicoEspecialidad.sql</FullPath>
+        </FileNode>
         <FileNode Name="TablaPaciente.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>TablaPaciente.sql</FullPath>
+        </FileNode>
+        <FileNode Name="TablaPago.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>TablaPago.sql</FullPath>
+        </FileNode>
+        <FileNode Name="TablaPagoPaciente.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>TablaPagoPaciente.sql</FullPath>
         </FileNode>
         <FileNode Name="TablaPais.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
@@ -74,6 +110,12 @@
           <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>TablaTurnoPaciente.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Types.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>Types.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>

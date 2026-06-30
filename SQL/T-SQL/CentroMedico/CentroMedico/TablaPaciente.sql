@@ -1,11 +1,18 @@
-CREATE TABLE dbo.Paciente (
-	idPaciente INT PRIMARY KEY IDENTITY(1,1),
-	nombre VARCHAR(50) NOT NULL,
-	apellido VARCHAR(50) NOT NULL,
-	fechaNacimiento DATE NOT NULL,
-	domicilio VARCHAR(50) NOT NULL,
-	idPais CHAR(3) NOT NULL,
-	telefono VARCHAR(20),
-	email VARCHAR(30) NOT NULL,
-	observacion VARCHAR(1000)
+CREATE TABLE dbo.Paciente
+(
+	IdPaciente INT IDENTITY(1,1) NOT NULL,
+	Nombre NVARCHAR(50) NOT NULL,
+	Apellido NVARCHAR(50) NOT NULL,
+	FechaNacimiento DATE NOT NULL,
+	Domicilio NVARCHAR(50) NOT NULL,
+	IdPais CHAR(3) NOT NULL,
+	Telefono NVARCHAR(20) NULL,
+	Email NVARCHAR(255) NOT NULL,
+	Observacion NVARCHAR(1000) NULL,
+
+	CONSTRAINT PK_Paciente 
+		PRIMARY KEY CLUSTERED (IdPaciente),
+	
+	CONSTRAINT FK_Paciente_Pais 
+		FOREIGN KEY (IdPais) REFERENCES dbo.Pais(IdPais),
 );

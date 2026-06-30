@@ -1,7 +1,15 @@
-CREATE TABLE dbo.HistoriaPaciente (
-	idHistoria INT NOT NULL,
-	idPaciente INT NOT NULL,
-	idMedico INT NOT NULL,
+CREATE TABLE dbo.HistoriaPaciente 
+(
+	IdHistoria INT NOT NULL,
+	IdPaciente INT NOT NULL,
+	IdMedico INT NOT NULL,
 
-	CONSTRAINT PK_HistoriaPaciente PRIMARY KEY (idHistoria, idPaciente, idMedico)
+	CONSTRAINT PK_HistoriaPaciente 
+		PRIMARY KEY CLUSTERED (idHistoria, idPaciente, idMedico),
+
+	CONSTRAINT FK_HistoriaPaciente_Paciente
+        FOREIGN KEY (IdPaciente) REFERENCES dbo.Paciente(IdPaciente),
+
+    CONSTRAINT FK_HistoriaPaciente_Medico
+        FOREIGN KEY (IdMedico) REFERENCES dbo.Medico(IdMedico),
 );

@@ -1,5 +1,9 @@
-CREATE TABLE Medico (
-	idMedico INT PRIMARY KEY IDENTITY(1,1),
-	nombre VARCHAR(50) NOT NULL,
-	apellido VARCHAR(50) NOT NULL,
+CREATE TABLE dbo.Medico 
+(
+	IdMedico INT IDENTITY(1,1),
+	Nombre VARCHAR(50) NOT NULL,
+	Apellido VARCHAR(50) NOT NULL,
+
+	CONSTRAINT PK_Medico
+		PRIMARY KEY CLUSTERED (IdMedico),
 );
