@@ -1,6 +1,8 @@
+DROP TABLE IF EXISTS dbo.Pais;
+
 CREATE TABLE dbo.Pais 
 (
-	IdPais CHAR(3) NOT NULL,
+	IdPais dbo.idPais NOT NULL,
 	Pais VARCHAR(30) NOT NULL,
 
 	CONSTRAINT PK_Pais

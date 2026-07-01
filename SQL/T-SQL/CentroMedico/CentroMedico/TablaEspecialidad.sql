@@ -1,6 +1,8 @@
+DROP TABLE IF EXISTS dbo.Especialidad;
+
 CREATE TABLE dbo.Especialidad 
 (
-	IdEspecialidad INT IDENTITY(1,1),
+	IdEspecialidad dbo.idEspecialidad IDENTITY(1,1) NOT NULL,
 	Especialidad VARCHAR(30) NOT NULL,
 
 	CONSTRAINT PK_Especialidad

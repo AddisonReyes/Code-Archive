@@ -1,3 +1,4 @@
--- DROP DATABASE CentroMedico;
-
+-- DROP DATABASE IF EXISTS CentroMedico;
 CREATE DATABASE CentroMedico;
+
+USE CentroMedico;

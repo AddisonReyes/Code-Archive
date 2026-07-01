@@ -1,8 +1,10 @@
+DROP TABLE IF EXISTS dbo.Historia;
+
 CREATE TABLE dbo.Historia 
 (
-	IdHistoria INT IDENTITY(1,1),
+	IdHistoria dbo.idHistoria IDENTITY(1,1) NOT NULL,
 	FechaHistoria DATETIME NOT NULL,
-	Observacion VARCHAR(2000),
+	Observacion dbo.observacion NULL,
 
 	CONSTRAINT PK_Historia
 		PRIMARY KEY CLUSTERED (IdHistoria),

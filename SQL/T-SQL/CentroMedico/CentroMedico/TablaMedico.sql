@@ -1,6 +1,8 @@
+DROP TABLE IF EXISTS dbo.Medico;
+
 CREATE TABLE dbo.Medico 
 (
-	IdMedico INT IDENTITY(1,1),
+	IdMedico dbo.idMedico IDENTITY(1,1) NOT NULL,
 	Nombre VARCHAR(50) NOT NULL,
 	Apellido VARCHAR(50) NOT NULL,
 

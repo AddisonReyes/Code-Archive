@@ -1,8 +1,10 @@
+DROP TABLE IF EXISTS dbo.TurnoPaciente;
+
 CREATE TABLE dbo.TurnoPaciente 
 (
-	IdTurno INT NOT NULL,
-	IdPaciente INT NOT NULL,
-	IdMedico INT NOT NULL,
+	IdTurno dbo.idTurno NOT NULL,
+	IdPaciente dbo.idPaciente NOT NULL,
+	IdMedico dbo.idMedico NOT NULL,
 
 	CONSTRAINT PK_TurnoPaciente 
 		PRIMARY KEY CLUSTERED (IdTurno, IdPaciente, IdMedico),

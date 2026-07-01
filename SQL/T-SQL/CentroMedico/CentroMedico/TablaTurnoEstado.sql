@@ -1,6 +1,8 @@
+DROP TABLE IF EXISTS dbo.TurnoEstado;
+
 CREATE TABLE dbo.TurnoEstado
 (
-	IdEstado SMALLINT NOT NULL,
+	IdEstado dbo.idEstado NOT NULL,
 	Descripcion VARCHAR(50) NULL,
 
 	CONSTRAINT PK_TurnoEstado

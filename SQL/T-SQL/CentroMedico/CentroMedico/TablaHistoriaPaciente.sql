@@ -1,8 +1,10 @@
+DROP TABLE IF EXISTS dbo.HistoriaPaciente;
+
 CREATE TABLE dbo.HistoriaPaciente 
 (
-	IdHistoria INT NOT NULL,
-	IdPaciente INT NOT NULL,
-	IdMedico INT NOT NULL,
+	IdHistoria dbo.idHistoria NOT NULL,
+	IdPaciente dbo.idPaciente NOT NULL,
+	IdMedico dbo.idMedico NOT NULL,
 
 	CONSTRAINT PK_HistoriaPaciente 
 		PRIMARY KEY CLUSTERED (idHistoria, idPaciente, idMedico),
