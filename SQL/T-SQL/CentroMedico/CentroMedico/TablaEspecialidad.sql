@@ -34,3 +34,30 @@ BEGIN
 		ADD CONSTRAINT PK_Especialidad PRIMARY KEY CLUSTERED (IdEspecialidad);
 END;
 GO
+
+SET IDENTITY_INSERT dbo.Especialidad ON;
+
+MERGE dbo.Especialidad AS Target
+USING (VALUES
+	(1, 'Medicina General'),
+	(2, 'Cardiologia'),
+	(3, 'Pediatria'),
+	(4, 'Ginecologia'),
+	(5, 'Dermatologia'),
+	(6, 'Neurologia'),
+	(7, 'Odontologia'),
+	(8, 'Ortopedia'),
+	(9, 'Oftalmologia'),
+	(10, 'Urologia'),
+	(11, 'Endocrinologia'),
+	(12, 'Psiquiatria')
+) AS Source (IdEspecialidad, Especialidad)
+	ON Target.IdEspecialidad = Source.IdEspecialidad
+WHEN MATCHED THEN
+	UPDATE SET Especialidad = Source.Especialidad
+WHEN NOT MATCHED BY TARGET THEN
+	INSERT (IdEspecialidad, Especialidad)
+	VALUES (Source.IdEspecialidad, Source.Especialidad);
+
+SET IDENTITY_INSERT dbo.Especialidad OFF;
+GO

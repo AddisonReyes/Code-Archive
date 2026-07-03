@@ -34,3 +34,26 @@ BEGIN
 		ADD CONSTRAINT PK_Concepto PRIMARY KEY CLUSTERED (IdConcepto);
 END;
 GO
+
+SET IDENTITY_INSERT dbo.Concepto ON;
+
+MERGE dbo.Concepto AS Target
+USING (VALUES
+	(1, 'Consulta general'),
+	(2, 'Consulta especializada'),
+	(3, 'Analitica de laboratorio'),
+	(4, 'Estudio de imagen'),
+	(5, 'Procedimiento ambulatorio'),
+	(6, 'Emergencia'),
+	(7, 'Terapia fisica'),
+	(8, 'Vacunacion')
+) AS Source (IdConcepto, Descripcion)
+	ON Target.IdConcepto = Source.IdConcepto
+WHEN MATCHED THEN
+	UPDATE SET Descripcion = Source.Descripcion
+WHEN NOT MATCHED BY TARGET THEN
+	INSERT (IdConcepto, Descripcion)
+	VALUES (Source.IdConcepto, Source.Descripcion);
+
+SET IDENTITY_INSERT dbo.Concepto OFF;
+GO

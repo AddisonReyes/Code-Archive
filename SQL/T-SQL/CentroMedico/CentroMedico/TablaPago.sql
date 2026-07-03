@@ -175,3 +175,49 @@ BEGIN
 		FOREIGN KEY (IdConcepto) REFERENCES dbo.Concepto(IdConcepto);
 END;
 GO
+
+SET IDENTITY_INSERT dbo.Pago ON;
+
+MERGE dbo.Pago AS Target
+USING (
+	SELECT
+		IdPago,
+		CONVERT(TINYINT, ((IdPago - 1) % 8) + 1) AS IdConcepto,
+		DATEADD(HOUR, IdPago % 10, DATEADD(DAY, IdPago, CONVERT(DATETIME, '2026-01-01'))) AS Fecha,
+		CONVERT(MONEY, 750 + (((IdPago - 1) % 8) * 425)) AS Monto,
+		CONVERT(TINYINT, CASE WHEN IdPago % 9 = 0 THEN 0 ELSE 1 END) AS Estado,
+		CASE IdPago % 6
+			WHEN 0 THEN 'Pago recibido en caja'
+			WHEN 1 THEN 'Copago registrado'
+			WHEN 2 THEN 'Cubierto parcialmente por seguro'
+			WHEN 3 THEN 'Pendiente de autorizacion'
+			WHEN 4 THEN 'Pago aplicado a consulta'
+			ELSE 'Factura entregada al paciente'
+		END AS Observacion
+	FROM (VALUES
+		(1),(2),(3),(4),(5),(6),(7),(8),(9),(10),
+		(11),(12),(13),(14),(15),(16),(17),(18),(19),(20),
+		(21),(22),(23),(24),(25),(26),(27),(28),(29),(30),
+		(31),(32),(33),(34),(35),(36),(37),(38),(39),(40),
+		(41),(42),(43),(44),(45),(46),(47),(48),(49),(50),
+		(51),(52),(53),(54),(55),(56),(57),(58),(59),(60),
+		(61),(62),(63),(64),(65),(66),(67),(68),(69),(70),
+		(71),(72),(73),(74),(75),(76),(77),(78),(79),(80),
+		(81),(82),(83),(84),(85),(86),(87),(88),(89),(90),
+		(91),(92),(93),(94),(95),(96),(97),(98),(99),(100)
+	) AS Datos (IdPago)
+) AS Source
+	ON Target.IdPago = Source.IdPago
+WHEN MATCHED THEN
+	UPDATE SET
+		IdConcepto = Source.IdConcepto,
+		Fecha = Source.Fecha,
+		Monto = Source.Monto,
+		Estado = Source.Estado,
+		Observacion = Source.Observacion
+WHEN NOT MATCHED BY TARGET THEN
+	INSERT (IdPago, IdConcepto, Fecha, Monto, Estado, Observacion)
+	VALUES (Source.IdPago, Source.IdConcepto, Source.Fecha, Source.Monto, Source.Estado, Source.Observacion);
+
+SET IDENTITY_INSERT dbo.Pago OFF;
+GO

@@ -34,3 +34,22 @@ BEGIN
 		ADD CONSTRAINT PK_Pais PRIMARY KEY CLUSTERED (IdPais);
 END;
 GO
+
+MERGE dbo.Pais AS Target
+USING (VALUES
+	('DOM', 'Republica Dominicana'),
+	('USA', 'Estados Unidos'),
+	('MEX', 'Mexico'),
+	('COL', 'Colombia'),
+	('VEN', 'Venezuela'),
+	('ESP', 'Espana'),
+	('ARG', 'Argentina'),
+	('PRI', 'Puerto Rico')
+) AS Source (IdPais, Pais)
+	ON Target.IdPais = Source.IdPais
+WHEN MATCHED THEN
+	UPDATE SET Pais = Source.Pais
+WHEN NOT MATCHED BY TARGET THEN
+	INSERT (IdPais, Pais)
+	VALUES (Source.IdPais, Source.Pais);
+GO

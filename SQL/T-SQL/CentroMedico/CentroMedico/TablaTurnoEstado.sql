@@ -34,3 +34,19 @@ BEGIN
 		ADD CONSTRAINT PK_TurnoEstado PRIMARY KEY CLUSTERED (IdEstado);
 END;
 GO
+
+MERGE dbo.TurnoEstado AS Target
+USING (VALUES
+	(1, 'Programado'),
+	(2, 'Confirmado'),
+	(3, 'Atendido'),
+	(4, 'Cancelado'),
+	(5, 'No asistio')
+) AS Source (IdEstado, Descripcion)
+	ON Target.IdEstado = Source.IdEstado
+WHEN MATCHED THEN
+	UPDATE SET Descripcion = Source.Descripcion
+WHEN NOT MATCHED BY TARGET THEN
+	INSERT (IdEstado, Descripcion)
+	VALUES (Source.IdEstado, Source.Descripcion);
+GO
