@@ -1,29 +1,39 @@
-DROP TYPE IF EXISTS dbo.idPaciente;
-CREATE TYPE dbo.idPaciente FROM INT NOT NULL;
+IF TYPE_ID(N'dbo.idPaciente') IS NULL
+	EXEC(N'CREATE TYPE dbo.idPaciente FROM INT NOT NULL;');
+GO
 
-DROP TYPE IF EXISTS dbo.idMedico;
-CREATE TYPE dbo.idMedico FROM INT NOT NULL;
+IF TYPE_ID(N'dbo.idMedico') IS NULL
+	EXEC(N'CREATE TYPE dbo.idMedico FROM INT NOT NULL;');
+GO
 
-DROP TYPE IF EXISTS dbo.idEspecialidad;
-CREATE TYPE dbo.idEspecialidad FROM INT NOT NULL;
+IF TYPE_ID(N'dbo.idEspecialidad') IS NULL
+	EXEC(N'CREATE TYPE dbo.idEspecialidad FROM INT NOT NULL;');
+GO
 
-DROP TYPE IF EXISTS dbo.idHistoria;
-CREATE TYPE dbo.idHistoria FROM INT NOT NULL;
+IF TYPE_ID(N'dbo.idHistoria') IS NULL
+	EXEC(N'CREATE TYPE dbo.idHistoria FROM INT NOT NULL;');
+GO
 
-DROP TYPE IF EXISTS dbo.idPais;
-CREATE TYPE dbo.idPais FROM CHAR(3) NOT NULL;
+IF TYPE_ID(N'dbo.idPais') IS NULL
+	EXEC(N'CREATE TYPE dbo.idPais FROM CHAR(3) NOT NULL;');
+GO
 
-DROP TYPE IF EXISTS dbo.idPago;
-CREATE TYPE dbo.idPago FROM INT NOT NULL;
+IF TYPE_ID(N'dbo.idPago') IS NULL
+	EXEC(N'CREATE TYPE dbo.idPago FROM INT NOT NULL;');
+GO
 
-DROP TYPE IF EXISTS dbo.idConcepto;
-CREATE TYPE dbo.idConcepto FROM TINYINT NOT NULL;
+IF TYPE_ID(N'dbo.idConcepto') IS NULL
+	EXEC(N'CREATE TYPE dbo.idConcepto FROM TINYINT NOT NULL;');
+GO
 
-DROP TYPE IF EXISTS dbo.idEstado;
-CREATE TYPE dbo.idEstado FROM SMALLINT NOT NULL;
+IF TYPE_ID(N'dbo.idEstado') IS NULL
+	EXEC(N'CREATE TYPE dbo.idEstado FROM SMALLINT NOT NULL;');
+GO
 
-DROP TYPE IF EXISTS dbo.idTurno;
-CREATE TYPE dbo.idTurno FROM INT NOT NULL;
+IF TYPE_ID(N'dbo.idTurno') IS NULL
+	EXEC(N'CREATE TYPE dbo.idTurno FROM INT NOT NULL;');
+GO
 
-DROP TYPE IF EXISTS dbo.observacion;
-CREATE TYPE dbo.observacion FROM NVARCHAR(2000) NULL;
+IF TYPE_ID(N'dbo.observacion') IS NULL
+	EXEC(N'CREATE TYPE dbo.observacion FROM NVARCHAR(2000) NULL;');
+GO

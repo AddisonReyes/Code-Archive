@@ -1,7 +1,15 @@
-PRINT 'Creating database...';
+:ON ERROR EXIT
 
-CREATE DATABASE CentroMedico;
+PRINT 'Creating or updating database...';
+
+IF DB_ID(N'CentroMedico') IS NULL
+BEGIN
+	CREATE DATABASE CentroMedico;
+END;
+GO
+
 USE CentroMedico;
+GO
 
 :R ".\CentroMedico\Types.sql"
 
@@ -11,7 +19,9 @@ USE CentroMedico;
 :R ".\CentroMedico\TablaTurnoEstado.sql"
 
 :R ".\CentroMedico\TablaPaciente.sql"
+:R ".\CentroMedico\TablaPacienteInfo.sql"
 :R ".\CentroMedico\TablaMedico.sql"
+:R ".\CentroMedico\TablaMedicoEspecialidad.sql"
 :R ".\CentroMedico\TablaHistoria.sql"
 :R ".\CentroMedico\TablaTurno.sql"
 :R ".\CentroMedico\TablaPago.sql"
@@ -20,4 +30,4 @@ USE CentroMedico;
 :R ".\CentroMedico\TablaPagoPaciente.sql"
 :R ".\CentroMedico\TablaTurnoPaciente.sql"
 
-PRINT 'Database created.';
+PRINT 'Database ready.';
