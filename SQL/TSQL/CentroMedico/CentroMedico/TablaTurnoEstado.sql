@@ -37,11 +37,13 @@ GO
 
 MERGE dbo.TurnoEstado AS Target
 USING (VALUES
-	(1, 'Programado'),
-	(2, 'Confirmado'),
-	(3, 'Atendido'),
+	(1, 'Pendiente'),
+	(2, 'Realizado'),
+	(3, 'Postergado'),
 	(4, 'Cancelado'),
-	(5, 'No asistio')
+	(5, 'Anulado'),
+	(6, 'Rechazado'),
+	(7, 'Derivado')
 ) AS Source (IdEstado, Descripcion)
 	ON Target.IdEstado = Source.IdEstado
 WHEN MATCHED THEN

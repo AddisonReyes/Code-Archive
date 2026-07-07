@@ -21,6 +21,12 @@
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
+        <FileNode Name="ClausulasSQL.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>ClausulasSQL.sql</FullPath>
+        </FileNode>
         <FileNode Name="CrearBaseDeDatos.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
@@ -76,8 +82,8 @@
           <FullPath>TablaPaciente.sql</FullPath>
         </FileNode>
         <FileNode Name="TablaPacienteInfo.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>TablaPacienteInfo.sql</FullPath>
         </FileNode>
@@ -94,8 +100,8 @@
           <FullPath>TablaPagoPaciente.sql</FullPath>
         </FileNode>
         <FileNode Name="TablaPais.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>TablaPais.sql</FullPath>
         </FileNode>
