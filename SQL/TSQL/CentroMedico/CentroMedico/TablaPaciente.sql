@@ -106,28 +106,53 @@ GO
 
 SET IDENTITY_INSERT dbo.Paciente ON;
 
-MERGE dbo.Paciente AS Target
-USING (
-	SELECT
-		Datos.IdPaciente,
-		CONCAT('001-', RIGHT(CONCAT('0000000', 1000000 + Datos.IdPaciente), 7), '-', RIGHT(CONCAT('000', Datos.IdPaciente), 3)) AS Cedula,
-		Datos.Nombre,
-		Datos.Apellido,
-		DATEADD(DAY, Datos.IdPaciente * 97, CONVERT(DATE, '1965-01-01')) AS FechaNacimiento,
-		CONCAT('Calle Salud ', Datos.IdPaciente, ', Ensanche Medico') AS Domicilio,
-		Datos.IdPais,
-		CONCAT('809-555-', RIGHT(CONCAT('0000', Datos.IdPaciente), 4)) AS Telefono,
-		LOWER(CONCAT(Datos.Nombre, '.', Datos.Apellido, Datos.IdPaciente, '@centromedico.local')) AS Email,
-		CASE Datos.IdPaciente % 8
-			WHEN 0 THEN 'Refiere alergia a penicilina'
-			WHEN 1 THEN 'Control anual recomendado'
-			WHEN 2 THEN 'Antecedente familiar de hipertension'
-			WHEN 3 THEN 'Seguimiento por dolor lumbar ocasional'
-			WHEN 4 THEN 'Paciente con actividad fisica regular'
-			WHEN 5 THEN 'Requiere control de glucosa'
-			WHEN 6 THEN 'Sin observaciones relevantes'
-			ELSE NULL
-		END AS Observacion
+WITH Numeros AS
+(
+	SELECT TOP (6000)
+		ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS IdPaciente
+	FROM sys.all_objects AS A
+	CROSS JOIN sys.all_objects AS B
+),
+Nombres AS
+(
+	SELECT *
+	FROM (VALUES
+		(1, 'Ana'), (2, 'Luis'), (3, 'Maria'), (4, 'Carlos'), (5, 'Laura'),
+		(6, 'Jose'), (7, 'Carmen'), (8, 'Miguel'), (9, 'Patricia'), (10, 'Rafael'),
+		(11, 'Sofia'), (12, 'Daniel'), (13, 'Elena'), (14, 'Jorge'), (15, 'Lucia'),
+		(16, 'Pedro'), (17, 'Gabriela'), (18, 'Fernando'), (19, 'Valeria'), (20, 'Roberto'),
+		(21, 'Paola'), (22, 'Andres'), (23, 'Natalia'), (24, 'Hector'), (25, 'Adriana'),
+		(26, 'Emilio'), (27, 'Isabel'), (28, 'Victor'), (29, 'Camila'), (30, 'Oscar'),
+		(31, 'Diana'), (32, 'Alberto'), (33, 'Marta'), (34, 'Ricardo'), (35, 'Julia'),
+		(36, 'Manuel'), (37, 'Rosa'), (38, 'Eduardo'), (39, 'Monica'), (40, 'Samuel')
+	) AS Lista (IdNombre, Nombre)
+),
+Apellidos AS
+(
+	SELECT *
+	FROM (VALUES
+		(1, 'Perez'), (2, 'Garcia'), (3, 'Rodriguez'), (4, 'Martinez'), (5, 'Sanchez'),
+		(6, 'Ramirez'), (7, 'Gomez'), (8, 'Diaz'), (9, 'Fernandez'), (10, 'Torres'),
+		(11, 'Reyes'), (12, 'Morales'), (13, 'Castillo'), (14, 'Vargas'), (15, 'Mendez'),
+		(16, 'Ortiz'), (17, 'Nunez'), (18, 'Herrera'), (19, 'Cruz'), (20, 'Jimenez'),
+		(21, 'Alvarez'), (22, 'Suarez'), (23, 'Rojas'), (24, 'Medina'), (25, 'Silva'),
+		(26, 'Pena'), (27, 'Flores'), (28, 'Acosta'), (29, 'Guerrero'), (30, 'Navarro'),
+		(31, 'Molina'), (32, 'Campos'), (33, 'Santos'), (34, 'Cabrera'), (35, 'Bautista'),
+		(36, 'Rosario'), (37, 'Matos'), (38, 'Luna'), (39, 'Arias'), (40, 'Leon')
+	) AS Lista (IdApellido, Apellido)
+),
+Paises AS
+(
+	SELECT *
+	FROM (VALUES
+		(1, 'DOM'), (2, 'DOM'), (3, 'DOM'), (4, 'DOM'),
+		(5, 'USA'), (6, 'MEX'), (7, 'COL'), (8, 'VEN'),
+		(9, 'ESP'), (10, 'ARG'), (11, 'PRI')
+	) AS Lista (IdPaisOrden, IdPais)
+),
+PacientesBase AS
+(
+	SELECT *
 	FROM (VALUES
 		(1, 'Ana', 'Perez', 'DOM'),
 		(2, 'Luis', 'Garcia', 'DOM'),
@@ -197,7 +222,50 @@ USING (
 		(66, 'Esther', 'Contreras', 'DOM'),
 		(67, 'Tomas', 'Delgado', 'DOM')
 	) AS Datos (IdPaciente, Nombre, Apellido, IdPais)
-) AS Source
+),
+Datos AS
+(
+	SELECT
+		Numeros.IdPaciente,
+		ISNULL(PacientesBase.Nombre, Nombres.Nombre) AS Nombre,
+		ISNULL(PacientesBase.Apellido, Apellidos.Apellido) AS Apellido,
+		ISNULL(PacientesBase.IdPais, Paises.IdPais) AS IdPais
+	FROM Numeros
+	LEFT JOIN PacientesBase
+		ON PacientesBase.IdPaciente = Numeros.IdPaciente
+	LEFT JOIN Nombres
+		ON Nombres.IdNombre = ((Numeros.IdPaciente - 1) % 40) + 1
+	LEFT JOIN Apellidos
+		ON Apellidos.IdApellido = (((Numeros.IdPaciente - 1) / 40) % 40) + 1
+	LEFT JOIN Paises
+		ON Paises.IdPaisOrden = ((Numeros.IdPaciente - 1) % 11) + 1
+),
+Source AS
+(
+	SELECT
+		Datos.IdPaciente,
+		CONCAT('001-', RIGHT(CONCAT('0000000', 1000000 + Datos.IdPaciente), 7), '-', RIGHT(CONCAT('000', Datos.IdPaciente), 3)) AS Cedula,
+		Datos.Nombre,
+		Datos.Apellido,
+		DATEADD(DAY, Datos.IdPaciente * 97, CONVERT(DATE, '1965-01-01')) AS FechaNacimiento,
+		CONCAT('Calle Salud ', Datos.IdPaciente, ', Ensanche Medico') AS Domicilio,
+		Datos.IdPais,
+		CONCAT('809-555-', RIGHT(CONCAT('0000', Datos.IdPaciente), 4)) AS Telefono,
+		LOWER(CONCAT(Datos.Nombre, '.', Datos.Apellido, Datos.IdPaciente, '@centromedico.local')) AS Email,
+		CASE Datos.IdPaciente % 8
+			WHEN 0 THEN 'Refiere alergia a penicilina'
+			WHEN 1 THEN 'Control anual recomendado'
+			WHEN 2 THEN 'Antecedente familiar de hipertension'
+			WHEN 3 THEN 'Seguimiento por dolor lumbar ocasional'
+			WHEN 4 THEN 'Paciente con actividad fisica regular'
+			WHEN 5 THEN 'Requiere control de glucosa'
+			WHEN 6 THEN 'Sin observaciones relevantes'
+			ELSE NULL
+		END AS Observacion
+	FROM Datos
+)
+MERGE dbo.Paciente AS Target
+USING Source
 	ON Target.IdPaciente = Source.IdPaciente
 WHEN MATCHED THEN
 	UPDATE SET
