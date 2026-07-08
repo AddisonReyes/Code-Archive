@@ -29,3 +29,44 @@ CREATE PROCEDURE SP_Pacientes (
 	WHERE IdPaciente = @IdPaciente;
 
 EXEC SP_Pacientes 6;
+
+-- CONDITIONALS AND LOOPS
+
+DECLARE @idpaciente INT
+SET @idpaciente = 67
+
+IF @idpaciente = 67 
+BEGIN
+	SET @idturno = 20
+
+	SELECT * FROM paciente WHERE IdPaciente = @idpaciente
+
+	PRINT @idturno
+	
+	IF EXISTS( SELECT * FROM paciente WHERE IdPaciente = 10000 )
+		PRINT 'Existe'
+END
+
+
+DECLARE @contador INT = 0
+
+WHILE @contador <= 10
+BEGIN
+	PRINT @contador
+	SET @contador = @contador + 1
+END
+
+
+DECLARE @valor INT = 20
+DECLARE @resultado CHAR(10)
+
+SET @resultado = (
+	CASE 
+		WHEN @valor = 10 THEN 'Rojo'
+		WHEN @valor = 20 THEN 'Verde'
+		WHEN @valor = 30 THEN 'Azul'
+		ELSE 'Negro'
+	END
+)
+
+PRINT @resultado
