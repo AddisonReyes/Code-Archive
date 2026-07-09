@@ -54,7 +54,17 @@ WHILE @contador <= 10
 BEGIN
 	PRINT @contador
 	SET @contador = @contador + 1
+
+	IF @contador = 6 
+		BREAK
 END
+
+BEGIN TRY
+	SET @contador = 'texto'
+END TRY
+BEGIN CATCH
+	PRINT 'No es posible asignar un texto a la variable contador'
+END CATCH
 
 
 DECLARE @valor INT = 20
@@ -70,3 +80,15 @@ SET @resultado = (
 )
 
 PRINT @resultado
+
+SELECT 
+	*, 
+	CASE 
+		WHEN IdEstado = 1 THEN 'Amarillo'
+		WHEN IdEstado = 2 THEN 'Verde'
+		WHEN IdEstado = 3 THEN 'Marron'
+		WHEN IdEstado = 4 THEN 'Rojo'
+		WHEN IdEstado = 5 THEN 'Negro'
+		ELSE 'Gris'
+	END AS ColorTurno
+FROM turno
