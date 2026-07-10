@@ -27,12 +27,14 @@ SELECT * FROM pais
 -- STORE PROCEDURE
 CREATE PROCEDURE SP_Pacientes (
 	@IdPaciente dbo.idPaciente
-) AS SELECT * FROM paciente 
+) AS SELECT * FROM Paciente 
 	WHERE IdPaciente = @IdPaciente;
 
 EXEC SP_Pacientes 6;
 
---ALTER PROCEDURE SP_Alta_Pacientes (
+SET NOCOUNT ON;
+
+-- ALTER PROCEDURE SP_Alta_Pacientes (
 CREATE PROCEDURE SP_Alta_Pacientes (
 	@Cedula NVARCHAR(20),
 	@Nombre NVARCHAR(50),
@@ -44,7 +46,7 @@ CREATE PROCEDURE SP_Alta_Pacientes (
 	@Email NVARCHAR(255),
 	@Observacion dbo.observacion
 ) AS
-IF NOT EXISTS(SELECT * FROM paciente WHERE Cedula = @Cedula) 
+IF NOT EXISTS(SELECT * FROM Paciente WHERE Cedula = @Cedula) 
 	BEGIN
 		INSERT INTO 
 			paciente(Cedula, Nombre, Apellido, FechaNacimiento, Domicilio, IdPais, Telefono, Email, Observacion)
@@ -64,6 +66,42 @@ EXEC SP_Alta_Pacientes
 	'135-9828462-7', 'Antonio', 'Gomez', '20020306', 
 	'Calle No se #67 22', 'DOM', '829-439-8492', 
 	'antonio.gomez@gmail.com', '';
+
+
+SELECT TOP 10 * FROM Turno;
+SELECT * FROM Turno ORDER BY FechaTurno DESC;
+SELECT TOP 10 * FROM Paciente;
+SELECT * FROM Medico;
+
+ALTER PROCEDURE SP_Alta_Turno (
+--CREATE PROCEDURE SP_Alta_Turno (
+	@FechaTurno CHAR(14),
+	@IdPaciente dbo.idPaciente,
+	@IdMedico dbo.idMedico,
+	@IdEstado dbo.idEstado,
+	@Observacion dbo.observacion
+) AS
+IF NOT EXISTS(SELECT TOP 1 * FROM turno WHERE FechaTurno = @FechaTurno) 
+	BEGIN
+		INSERT INTO Turno(FechaTurno, IdEstado, Observacion)
+		VALUES (@FechaTurno, @IdEstado, @Observacion)
+
+		DECLARE @IdTurno dbo.idTurno
+		SET @IdTurno = @@IDENTITY
+
+		INSERT INTO TurnoPaciente(IdTurno, IdPaciente, IdMedico)
+		VALUES (@IdTurno, @IdPaciente, @IdMedico)
+
+		PRINT 'El turno se agrego correctamente.'
+		RETURN
+	END
+ELSE
+	BEGIN
+		PRINT 'El turno ya existe.'
+		RETURN
+	END;
+
+EXEC SP_Alta_Turno '20260606 08:15', 6, 7, 1, 'El paciente tiene que estar en ayunas';
 
 -- CONDITIONALS AND LOOPS
 DECLARE @idpaciente INT
