@@ -22,6 +22,8 @@ SELECT * FROM turno WHERE IdEstado BETWEEN 3 AND 7
 SELECT * FROM paciente WHERE Apellido NOT IN ('Perez', 'Ramirez', 'Gonzalez');
 SELECT * FROM paciente WHERE Nombre NOT LIKE '%ober%';
 
+SELECT * FROM pais
+
 -- STORE PROCEDURE
 CREATE PROCEDURE SP_Pacientes (
 	@IdPaciente dbo.idPaciente
@@ -30,8 +32,40 @@ CREATE PROCEDURE SP_Pacientes (
 
 EXEC SP_Pacientes 6;
 
--- CONDITIONALS AND LOOPS
+--ALTER PROCEDURE SP_Alta_Pacientes (
+CREATE PROCEDURE SP_Alta_Pacientes (
+	@Cedula NVARCHAR(20),
+	@Nombre NVARCHAR(50),
+	@Apellido NVARCHAR(50),
+	@FechaNacimiento NVARCHAR(8),
+	@Domicilio NVARCHAR(50),
+	@IdPais dbo.idPais,
+	@Telefono NVARCHAR(20),
+	@Email NVARCHAR(255),
+	@Observacion dbo.observacion
+) AS
+IF NOT EXISTS(SELECT * FROM paciente WHERE Cedula = @Cedula) 
+	BEGIN
+		INSERT INTO 
+			paciente(Cedula, Nombre, Apellido, FechaNacimiento, Domicilio, IdPais, Telefono, Email, Observacion)
+		VALUES 
+			(@Cedula, @Nombre, @Apellido, @FechaNacimiento, @Domicilio, @IdPais, @Telefono, @Email, @Observacion)
 
+		PRINT 'El paciente se agrego correctamente.'
+		RETURN
+	END
+ELSE
+	BEGIN
+		PRINT 'El paciente ya existe.'
+		RETURN
+	END;
+
+EXEC SP_Alta_Pacientes 
+	'135-9828462-7', 'Antonio', 'Gomez', '20020306', 
+	'Calle No se #67 22', 'DOM', '829-439-8492', 
+	'antonio.gomez@gmail.com', '';
+
+-- CONDITIONALS AND LOOPS
 DECLARE @idpaciente INT
 SET @idpaciente = 67
 
