@@ -22,7 +22,41 @@ SELECT * FROM turno WHERE IdEstado BETWEEN 3 AND 7
 SELECT * FROM paciente WHERE Apellido NOT IN ('Perez', 'Ramirez', 'Gonzalez');
 SELECT * FROM paciente WHERE Nombre NOT LIKE '%ober%';
 
-SELECT * FROM pais
+SELECT * FROM pais;
+
+-- ALTER
+SELECT TOP 10 * FROM Paciente;
+ALTER TABLE Paciente ADD estado SMALLINT;
+ALTER TABLE Paciente ALTER COLUMN estado BIT;
+ALTER TABLE Paciente DROP COLUMN estado;
+
+ALTER TABLE Paciente ADD FOREIGN KEY (IdPais) REFERENCES Pais(IdPais);
+ALTER TABLE HistoriaPaciente ADD FOREIGN KEY (IdPaciente) REFERENCES Paciente(IdPaciente);
+
+-- CREATE
+CREATE FUNCTION nombrefun(@var INT) RETURNS INT
+AS BEGIN
+	SET @var = @var * 6
+	RETURN @var
+END
+
+SELECT dbo.nombrefun(67);
+
+-- DROP & TRUNCATE
+CREATE TABLE test (
+	id INT IDENTITY(1, 1),
+	campo1 INT,
+	campo2 INT
+)
+
+DROP TABLE test;
+SELECT * FROM test;
+
+INSERT INTO test VALUES(2, 3);
+INSERT INTO test VALUES(4, 5);
+INSERT INTO test VALUES(6, 7);
+
+TRUNCATE TABLE test;
 
 -- STORE PROCEDURE
 CREATE PROCEDURE SP_Pacientes (
@@ -103,6 +137,12 @@ ELSE
 
 EXEC SP_Alta_Turno '20260606 08:15', 6, 7, 1, 'El paciente tiene que estar en ayunas';
 
+sp_help Pais;
+sp_help SP_Alta_Turno;
+sp_help Paciente;
+
+sp_helptext SP_Alta_Pacientes;
+
 -- CONDITIONALS AND LOOPS
 DECLARE @idpaciente INT
 SET @idpaciente = 67
@@ -164,3 +204,15 @@ SELECT
 		ELSE 'Gris'
 	END AS ColorTurno
 FROM turno
+
+-- LEFT & RIGHT
+DECLARE @var1 VARCHAR(20);
+SET @var1 = 'Addison';
+
+DECLARE @var2 VARCHAR(20);
+SET @var2 = 'Reyes';
+
+PRINT LEFT(@var1, 2);
+PRINT RIGHT(@var1, 2);
+
+SELECT LEFT(@var1, 1) + LEFT(@var2, 1) AS Iniciales;
