@@ -205,14 +205,57 @@ SELECT
 	END AS ColorTurno
 FROM turno
 
--- LEFT & RIGHT
+-- STRINGS FUNCTIONS
 DECLARE @var1 VARCHAR(20);
-SET @var1 = 'Addison';
+SET @var1 = 'Juan';
 
 DECLARE @var2 VARCHAR(20);
-SET @var2 = 'Reyes';
+SET @var2 = 'Ramirez';
 
 PRINT LEFT(@var1, 2);
 PRINT RIGHT(@var1, 2);
 
 SELECT LEFT(@var1, 1) + LEFT(@var2, 1) AS Iniciales;
+SELECT LEN(@var1 + @var2) AS Longitud;
+SELECT LOWER(@var1 + @var2) AS [Lower];
+SELECT UPPER(@var1 + @var2) AS [Upper];
+
+PRINT REPLICATE('*', 1);
+PRINT REPLICATE('*', 3);
+PRINT REPLICATE('*', 5);
+PRINT REPLICATE('*', 7);
+PRINT REPLICATE('*', 9);
+PRINT REPLICATE('*', 11);
+
+DECLARE @Nombre VARCHAR(20);
+DECLARE @Apellido VARCHAR(20);
+
+SET @Nombre = '            Addison    ';
+SET @Apellido = '   Reyes             ';
+SELECT CONCAT_WS(' ', @Nombre, @Apellido, '*');
+SELECT CONCAT(@Nombre, ' ', @Apellido, ' *');
+
+SELECT CONCAT_WS(' ', LTRIM(RTRIM(@Nombre)), LTRIM(RTRIM(@Apellido)), '*');
+SELECT CONCAT( LTRIM(RTRIM(@Nombre)), ' ', LTRIM(RTRIM(@Apellido)), '*');
+
+SELECT GETDATE();
+SELECT GETUTCDATE();
+
+SELECT DATEADD(DAY, 67, GETDATE());
+SELECT DATEDIFF(MONTH, GETDATE(), DATEADD(DAY, 67, GETDATE()));
+SELECT DATEPART(DAY, GETDATE());
+
+PRINT ISDATE('15-07-2026');
+PRINT ISDATE('20260715');
+
+SELECT 
+	CAST(REPLACE(Cedula, '-', '') AS BIGINT) AS CedulaNumCast,
+	CONVERT(BIGINT, REPLACE(Cedula, '-', '')) AS CedulaNumConvert
+FROM Paciente
+
+SELECT
+	GETDATE(),
+	CONVERT(char(8), GETDATE()),
+	CONVERT(char(20), GETDATE()),
+	CONVERT(char(20), GETDATE(), 104)
+	
