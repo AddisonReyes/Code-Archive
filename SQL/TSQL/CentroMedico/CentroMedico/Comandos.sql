@@ -279,3 +279,34 @@ BEGIN TRANSACTION
 		COMMIT TRANSACTION
 	ELSE
 		ROLLBACK TRANSACTION
+
+-- JOINS & UNION
+
+SELECT TOP 20 *
+FROM Paciente AS p
+INNER JOIN TurnoPaciente AS t
+	ON p.IdPaciente = t.IdPaciente
+
+SELECT TOP 10 
+	m.Nombre, m.Apellido, e.Especialidad, me.Descripcion
+FROM Medico AS m
+LEFT JOIN MedicoEspecialidad AS me
+	ON m.IdMedico = me.IdMedico
+LEFT JOIN Especialidad AS e
+	ON me.IdEspecialidad = e.IdEspecialidad
+
+SELECT TOP 15
+	p.Fecha, c.Descripcion, p.Monto, p.Observacion
+FROM Pago AS p
+RIGHT JOIN Concepto AS c
+	ON p.IdConcepto = c.IdConcepto
+ORDER BY p.Monto DESC
+
+SELECT TOP 5 * FROM Turno
+UNION 
+SELECT TOP 5 * FROM Turno WHERE IdEstado = 2
+
+SELECT TOP 5 * FROM Turno WHERE IdEstado = 1
+UNION ALL
+SELECT TOP 5 * FROM Turno WHERE IdEstado = 2
+
