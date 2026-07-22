@@ -143,6 +143,28 @@ sp_help Paciente;
 
 sp_helptext SP_Alta_Pacientes;
 
+SELECT TOP 2 * FROM Paciente
+SELECT TOP 2 * FROM TurnoPaciente
+SELECT TOP 2 * FROM Turno
+SELECT TOP 2 * FROM MedicoEspecialidad
+
+-- CREATE PROCEDURE SELECT_TurnosPaciente(
+ALTER PROCEDURE SELECT_TurnosPaciente(
+	@IdPaciente dbo.idPaciente
+)
+AS SET NOCOUNT ON
+	SELECT * 
+	FROM Paciente AS p
+	INNER JOIN TurnoPaciente AS tp
+		ON tp.IdPaciente = p.IdPaciente
+	INNER JOIN Turno AS t
+		ON t.IdTurno = tp.IdTurno
+	INNER JOIN MedicoEspecialidad AS me
+		ON tp.IdMedico = me.IdMedico
+	WHERE p.IdPaciente = @IdPaciente;
+
+EXEC SELECT_TurnosPaciente 6;
+
 -- CONDITIONALS AND LOOPS
 DECLARE @idpaciente INT
 SET @idpaciente = 67
