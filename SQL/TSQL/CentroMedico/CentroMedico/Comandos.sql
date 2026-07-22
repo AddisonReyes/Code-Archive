@@ -148,12 +148,11 @@ SELECT TOP 2 * FROM TurnoPaciente
 SELECT TOP 2 * FROM Turno
 SELECT TOP 2 * FROM MedicoEspecialidad
 
--- CREATE PROCEDURE SELECT_TurnosPaciente(
-ALTER PROCEDURE SELECT_TurnosPaciente(
+-- CREATE PROCEDURE SEL_TurnosPaciente(
+ALTER PROCEDURE SEL_TurnosPaciente(
 	@IdPaciente dbo.idPaciente
 ) AS SET NOCOUNT ON
-	SELECT * 
-	FROM Paciente AS p
+	SELECT * FROM Paciente AS p
 	INNER JOIN TurnoPaciente AS tp
 		ON tp.IdPaciente = p.IdPaciente
 	INNER JOIN Turno AS t
@@ -170,24 +169,87 @@ EXEC SELECT_TurnosPaciente 6;
 SELECT * FROM Historia
 SELECT * FROM HistoriaPaciente
 
--- ALTER PROCEDURE SEL_TurnoPaciente(
-CREATE PROCEDURE SEL_TurnoPaciente(
+-- CREATE PROCEDURE SEL_TurnoPaciente(
+ALTER PROCEDURE SEL_TurnoPaciente(
 	@IdPaciente dbo.idPaciente
 ) AS SET NOCOUNT ON
-	SELECT * 
-	FROM Paciente AS p
-	INNER JOIN HistoriaPaciente AS hp
-		ON p.IdPaciente = hp.IdPaciente
-	INNER JOIN Historia AS h
-		ON h.IdHistoria = hp.IdHistoria
-	INNER JOIN MedicoEspecialidad AS me
-		ON me.IdMedico = hp.IdMedico
-	INNER JOIN Medico AS m
-		ON m.IdMedico = me.IdMedico
-	WHERE
-		p.IdPaciente = @IdPaciente;
+	IF EXISTS (
+		SELECT * FROM Paciente AS p
+		INNER JOIN HistoriaPaciente AS hp
+			ON p.IdPaciente = hp.IdPaciente
+		INNER JOIN Historia AS h
+			ON h.IdHistoria = hp.IdHistoria
+		INNER JOIN MedicoEspecialidad AS me
+			ON me.IdMedico = hp.IdMedico
+		INNER JOIN Medico AS m
+			ON m.IdMedico = me.IdMedico
+		WHERE
+			p.IdPaciente = @IdPaciente
+	) BEGIN
+		SELECT * FROM Paciente AS p
+		INNER JOIN HistoriaPaciente AS hp
+			ON p.IdPaciente = hp.IdPaciente
+		INNER JOIN Historia AS h
+			ON h.IdHistoria = hp.IdHistoria
+		INNER JOIN MedicoEspecialidad AS me
+			ON me.IdMedico = hp.IdMedico
+		INNER JOIN Medico AS m
+			ON m.IdMedico = me.IdMedico
+		WHERE
+			p.IdPaciente = @IdPaciente
+	END
+	ELSE BEGIN
+		SELECT 'No existen historias clinicas para el paciente' AS Resultado
+	END;
 
-EXEC SEL_TurnoPaciente 6;
+EXEC SEL_TurnoPaciente 6000000;
+EXEC SEL_TurnoPaciente 37;
+
+--------------------------------------
+
+-- ALTER PROCEDURE SEL_EspecialidadMedica 
+CREATE PROCEDURE SEL_EspecialidadMedica 
+AS SET NOCOUNT ON
+	IF EXISTS (SELECT * FROM Especialidad) BEGIN
+		SELECT * FROM Especialidad
+	END 
+	ELSE BEGIN
+		SELECT 0 AS Resultado
+	END;
+
+EXEC SEL_EspecialidadMedica;
+
+-----------------------------------------
+
+-- ALTER PROCEDURE UPD_Turno (
+CREATE PROCEDURE UPD_Turno (
+	@IdTurno dbo.IdTurno,
+	@IdEstado dbo.IdEstado,
+	@Observacion dbo.observacion
+) AS SET NOCOUNT ON
+	IF EXISTS (
+		SELECT * FROM Turno WHERE IdTurno = @IdTurno
+	) BEGIN
+		UPDATE Turno SET
+			IdEstado = @IdEstado,
+			Observacion = @Observacion 
+		WHERE IdTurno = @IdTurno
+	END
+	ELSE BEGIN
+		SELECT 0 AS Resultado
+	END;	
+
+SELECT * FROM Turno AS t
+INNER JOIN TurnoPaciente AS tp
+	ON t.IdTurno = tp.IdTurno
+WHERE t.IdTurno = 1;
+
+EXEC UPD_Turno 1, 2, 'SP Test';
+
+SELECT * FROM Turno AS t
+INNER JOIN TurnoPaciente AS tp
+	ON t.IdTurno = tp.IdTurno
+WHERE t.IdTurno = 1;
 
 -- CONDITIONALS AND LOOPS
 DECLARE @idpaciente INT
