@@ -151,8 +151,7 @@ SELECT TOP 2 * FROM MedicoEspecialidad
 -- CREATE PROCEDURE SELECT_TurnosPaciente(
 ALTER PROCEDURE SELECT_TurnosPaciente(
 	@IdPaciente dbo.idPaciente
-)
-AS SET NOCOUNT ON
+) AS SET NOCOUNT ON
 	SELECT * 
 	FROM Paciente AS p
 	INNER JOIN TurnoPaciente AS tp
@@ -161,9 +160,34 @@ AS SET NOCOUNT ON
 		ON t.IdTurno = tp.IdTurno
 	INNER JOIN MedicoEspecialidad AS me
 		ON tp.IdMedico = me.IdMedico
-	WHERE p.IdPaciente = @IdPaciente;
+	WHERE 
+		p.IdPaciente = @IdPaciente;
 
 EXEC SELECT_TurnosPaciente 6;
+
+---------------------------------------------------------
+
+SELECT * FROM Historia
+SELECT * FROM HistoriaPaciente
+
+-- ALTER PROCEDURE SEL_TurnoPaciente(
+CREATE PROCEDURE SEL_TurnoPaciente(
+	@IdPaciente dbo.idPaciente
+) AS SET NOCOUNT ON
+	SELECT * 
+	FROM Paciente AS p
+	INNER JOIN HistoriaPaciente AS hp
+		ON p.IdPaciente = hp.IdPaciente
+	INNER JOIN Historia AS h
+		ON h.IdHistoria = hp.IdHistoria
+	INNER JOIN MedicoEspecialidad AS me
+		ON me.IdMedico = hp.IdMedico
+	INNER JOIN Medico AS m
+		ON m.IdMedico = me.IdMedico
+	WHERE
+		p.IdPaciente = @IdPaciente;
+
+EXEC SEL_TurnoPaciente 6;
 
 -- CONDITIONALS AND LOOPS
 DECLARE @idpaciente INT
