@@ -418,3 +418,35 @@ SELECT TOP 5 * FROM Turno WHERE IdEstado = 1
 UNION ALL
 SELECT TOP 5 * FROM Turno WHERE IdEstado = 2
 
+-- Backups and Restores
+
+-- USE CentroMedico;
+USE Master;
+
+BACKUP DATABASE CentroMedico 
+TO DISK = N'D:\SQLBackups\CentroMedicol.bak'
+WITH
+    COPY_ONLY,
+    INIT,
+    COMPRESSION,
+    CHECKSUM,
+    STATS = 10;
+
+RESTORE VERIFYONLY
+FROM DISK = N'D:\SQLBackups\CentroMedicol.bak'
+WITH CHECKSUM;
+
+RESTORE FILELISTONLY
+FROM DISK = N'D:\SQLBackups\CentroMedicol.bak';
+
+RESTORE DATABASE CentroMedicoTesting
+FROM DISK = N'D:\SQLBackups\CentroMedicol.bak'
+WITH
+    MOVE N'CentroMedico'
+        TO N'C:\Program Files\Microsoft SQL Server\MSSQL17.MSSQLSERVER\MSSQL\DATA\CentroMedicoTesting.mdf',
+
+    MOVE N'CentroMedico_log'
+        TO N'C:\Program Files\Microsoft SQL Server\MSSQL17.MSSQLSERVER\MSSQL\DATA\CentroMedicoTesting_log.ldf',
+
+    RECOVERY,
+    STATS = 10;
