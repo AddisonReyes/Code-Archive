@@ -418,6 +418,90 @@ SELECT TOP 5 * FROM Turno WHERE IdEstado = 1
 UNION ALL
 SELECT TOP 5 * FROM Turno WHERE IdEstado = 2
 
+-- FUNCTIONS
+
+CREATE OR ALTER FUNCTION nombrefun (@var int)
+RETURNS INT AS
+BEGIN
+	SET @var = @var * 5
+	RETURN @var
+END
+
+DECLARE @startVal INT = 1
+DECLARE @endVal INT = 10
+
+WHILE @startVal < @endVal BEGIN
+	PRINT dbo.nombrefun(@startVal)
+	SET @startVal = @startVal + 1
+END
+ 
+
+CREATE OR ALTER FUNCTION concatenar (
+	@nombre varchar(50), @apellido varchar(50)
+) RETURNS VARCHAR(100) AS
+BEGIN
+	DECLARE @resultado VARCHAR(100)
+	SET @resultado = @apellido + ', ' + @nombre
+	RETURN @resultado
+END
+
+SELECT dbo.concatenar('Addison', 'Reyes') AS Nombre
+SELECT 
+	Nombre, Apellido,
+	dbo.concatenar(Nombre, Apellido) AS Concatenacion
+FROM Paciente
+
+CREATE OR ALTER FUNCTION ObtenerPais (
+	@IdPaciente dbo.idPaciente
+) RETURNS CHAR(60) AS BEGIN
+	DECLARE @Pais CHAR(60)
+
+	SELECT @Pais = p2.Pais 
+	FROM Paciente AS p1
+	INNER JOIN Pais AS p2
+		ON p1.IdPais = p2.IdPais
+	WHERE IdPaciente = @IdPaciente
+
+	RETURN @Pais
+END
+
+SELECT * FROM Pais
+
+DECLARE @id INT = 67
+SELECT dbo.ObtenerPais(@id) 
+SELECT * FROM Paciente WHERE IdPaciente = @id
+
+
+CREATE OR ALTER FUNCTION PacientesPaises()
+RETURNS @paises TABLE(
+	IdPaciente dbo.idPaciente,
+	Nombre VARCHAR(50),
+	Apellido VARCHAR(50),
+	IdPais dbo.idPais,
+	Pais VARCHAR(60)
+) AS BEGIN 
+	INSERT INTO @paises (
+		IdPaciente,
+		Nombre,
+		Apellido,
+		IdPais,
+		Pais
+	)
+	SELECT 
+		p1.IdPaciente,
+		p1.Nombre,
+		p1.Apellido,
+		p1.IdPais,
+		p2.Pais
+	FROM Paciente AS p1
+	INNER JOIN Pais AS p2
+		ON p1.IdPais = p2.IdPais
+
+	RETURN
+END
+
+SELECT * FROM dbo.PacientesPaises();
+
 -- Backups and Restores
 
 -- USE CentroMedico;
