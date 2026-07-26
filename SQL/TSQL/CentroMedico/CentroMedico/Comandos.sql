@@ -534,3 +534,56 @@ WITH
 
     RECOVERY,
     STATS = 10;
+
+-- Tabla temporal en memoria
+DECLARE @tabla TABLE (
+	id INT IDENTITY(1, 1),
+	pais VARCHAR(50)
+)
+
+INSERT INTO @tabla VALUES('Inglaterra')
+INSERT INTO @tabla VALUES('China')
+INSERT INTO @tabla VALUES('Brasil')
+INSERT INTO @tabla VALUES('Francia')
+
+SELECT * FROM @tabla
+
+-- Tabla temporal fisica
+CREATE TABLE #tabla (
+	id INT IDENTITY(1, 1),
+	pais VARCHAR(50)
+)
+
+INSERT INTO #tabla VALUES('Colombia')
+INSERT INTO #tabla VALUES('Colombia')
+INSERT INTO #tabla VALUES('Rusia')
+INSERT INTO #tabla VALUES('Alemania')
+
+SELECT * FROM #tabla
+
+
+SELECT * FROM Paciente
+SELECT * FROM TurnoPaciente
+DECLARE @turnos TABLE (
+	Id INT IDENTITY(1, 1),
+	IdTurno dbo.idTurno,
+	IdPaciente dbo.idPaciente
+)
+
+INSERT INTO @turnos (IdTurno, IdPaciente)
+	SELECT TOP 10
+		tp.IdTurno, p.IdPaciente 
+	FROM Paciente AS p
+	INNER JOIN TurnoPaciente AS tp
+		ON tp.IdPaciente = p.IdPaciente
+
+DECLARE @i INT = 1
+WHILE @i <= (SELECT COUNT(*) FROM @turnos) BEGIN
+	IF (SELECT IdPaciente FROM @turnos WHERE id = @i) <> 6 BEGIN
+		DELETE FROM @turnos WHERE id = @i
+	END
+
+	SET @i = @i + 1
+END
+
+SELECT * FROM @turnos
