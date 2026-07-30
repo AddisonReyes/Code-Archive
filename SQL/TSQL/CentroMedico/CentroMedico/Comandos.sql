@@ -587,3 +587,31 @@ WHILE @i <= (SELECT COUNT(*) FROM @turnos) BEGIN
 END
 
 SELECT * FROM @turnos
+
+
+-- VIEWS
+
+CREATE OR ALTER VIEW PacientesYTurnos AS (
+	SELECT 
+		p.IdPaciente,
+		p.Cedula,
+		p.Nombre,
+		p.Domicilio,
+		p.IdPais,
+		p.Telefono,
+		p.Email,
+		p.Observacion,
+		tp.IdTurno,
+		tp.IdMedico,
+		t.FechaTurno,
+		t.Observacion AS ObservacionTurno,
+		t.IdEstado
+	FROM Paciente AS p
+	INNER JOIN TurnoPaciente AS tp
+		ON p.IdPaciente = tp.IdPaciente
+	INNER JOIN Turno AS t
+		ON tp.IdTurno = t.IdTurno 
+	WHERE ISNULL(t.IdEstado, 0) <> 0
+)
+
+SELECT * FROM PacientesYTurnos
