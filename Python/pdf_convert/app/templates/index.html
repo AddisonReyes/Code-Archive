@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Compresor de PDF</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="intro">
+        <p class="eyebrow">PDF seguro y temporal</p>
+        <h1>Compresor de PDF</h1>
+        <p class="description">
+          Sube un PDF y la aplicacion intentara reducirlo por debajo de {{ target_size_kb }} KB sin eliminar paginas ni romper el documento.
+        </p>
+      </section>
+
+      <section class="workspace" aria-labelledby="upload-title">
+        <div class="upload-panel">
+          <h2 id="upload-title">Selecciona el archivo</h2>
+          <p class="limit">Tamano maximo permitido: {{ max_upload_size_mb }} MB</p>
+
+          <form id="compress-form">
+            <label id="drop-zone" class="drop-zone" for="pdf-file">
+              <input id="pdf-file" name="file" type="file" accept="application/pdf,.pdf">
+              <span class="drop-icon" aria-hidden="true">PDF</span>
+              <span class="drop-title">Arrastra tu PDF aqui</span>
+              <span class="drop-subtitle">o haz clic para elegirlo</span>
+            </label>
+
+            <div id="file-summary" class="file-summary" hidden>
+              <span id="file-name"></span>
+              <strong id="file-size"></strong>
+            </div>
+
+            <button id="compress-button" class="primary-button" type="submit" disabled>
+              Comprimir PDF
+            </button>
+          </form>
+        </div>
+
+        <div id="status-panel" class="status-panel" hidden>
+          <div id="progress-area" class="progress-area">
+            <div class="spinner" aria-hidden="true"></div>
+            <p id="status-text">Preparando compresion...</p>
+            <div class="progress-track" aria-hidden="true">
+              <div id="progress-bar" class="progress-bar"></div>
+            </div>
+          </div>
+
+          <div id="result-area" class="result-area" hidden>
+            <div id="goal-badge" class="goal-badge"></div>
+            <dl class="metrics">
+              <div>
+                <dt>Tamano original</dt>
+                <dd id="original-size">-</dd>
+              </div>
+              <div>
+                <dt>Tamano final</dt>
+                <dd id="compressed-size">-</dd>
+              </div>
+              <div>
+                <dt>Reduccion</dt>
+                <dd id="reduction">-</dd>
+              </div>
+            </dl>
+            <p id="result-message" class="result-message"></p>
+            <div class="actions">
+              <a id="download-link" class="primary-button" href="#" download>Descargar</a>
+              <button id="reset-button" class="secondary-button" type="button">Procesar otro archivo</button>
+            </div>
+          </div>
+        </div>
+
+        <p id="error-message" class="error-message" role="alert" hidden></p>
+      </section>
+    </main>
+
+    <script src="{{ url_for('static', path='js/app.js') }}"></script>
+  </body>
+</html>
