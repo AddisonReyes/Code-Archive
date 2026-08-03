@@ -615,3 +615,93 @@ CREATE OR ALTER VIEW PacientesYTurnos AS (
 )
 
 SELECT * FROM PacientesYTurnos
+
+---------------------------------------------
+	USE [CentroMedico]
+	GO
+
+	/****** Object:  Table [dbo].[PacienteLog]    Script Date: 8/3/2026 4:00:27 PM ******/
+	SET ANSI_NULLS ON
+	GO
+
+	SET QUOTED_IDENTIFIER ON
+	GO
+
+	CREATE TABLE [dbo].[PacienteLog](
+		[IdPaciente] [dbo].[idPaciente] NOT NULL,
+		[IdPais] [dbo].[idPais] NULL,
+		[FechaAlta] [datetime] NULL,
+	 CONSTRAINT [PK_PacienteLog] PRIMARY KEY CLUSTERED 
+	(
+		[IdPaciente] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+	) ON [PRIMARY]
+	GO
+---------------------------------------------
+
+-- TRIGGERS
+CREATE TRIGGER PacientesCreados ON Paciente
+AFTER INSERT AS
+	IF (SELECT IdPais FROM inserted) = 'DOM' BEGIN
+		INSERT INTO PacienteLog (IdPaciente, IdPais, FechaAlta)
+		SELECT IdPaciente, IdPais, GETDATE() FROM inserted;
+	END
+
+SELECT TOP 6 * FROM Paciente
+
+INSERT INTO Paciente (Cedula, Nombre, Apellido, FechaNacimiento, Domicilio, IdPais, Telefono, Email, Observacion)
+VALUES ('235-9087267-7', 'Juana', 'Reyes', '12-01-2001', 'Calle 4 NO.27 Ensanche Ozama 2nd', 'DOM', NULL, 'juana.reyes@hotmail.com', NULL)
+
+SELECT * FROM PacienteLog
+
+
+ALTER TABLE PacienteLog ADD FechaModificacion DATETIME
+
+CREATE TRIGGER PacientesActualizados ON Paciente
+AFTER UPDATE AS
+	IF EXISTS (
+		SELECT IdPaciente FROM PacienteLog
+		WHERE IdPaciente = (SELECT IdPaciente FROM Inserted)
+	) BEGIN
+		UPDATE PacienteLog SET FechaModificacion = GETDATE()
+		WHERE IdPaciente = (SELECT IdPaciente FROM Inserted)
+	END ELSE BEGIN
+		INSERT INTO PacienteLog (IdPaciente, IdPais, FechaModificacion)
+		SELECT IdPaciente, IdPais, GETDATE() FROM inserted;
+	END
+
+SELECT * FROM Paciente
+WHERE IdPaciente = 6003
+
+UPDATE Paciente SET Nombre = 'Maria'
+WHERE IdPaciente = 6003
+
+SELECT * FROM PacienteLog
+
+SELECT * FROM Paciente
+WHERE IdPaciente = 6003
+
+
+ALTER TABLE PacienteLog ADD FechaBaja DATETIME
+
+CREATE OR ALTER TRIGGER PacientesBorrados ON Paciente
+FOR DELETE AS
+	IF EXISTS (
+		SELECT IdPaciente FROM PacienteLog
+		WHERE IdPaciente = (SELECT IdPaciente FROM Deleted)
+	) BEGIN
+		UPDATE PacienteLog SET FechaBaja = GETDATE()
+		WHERE IdPaciente = (SELECT IdPaciente FROM Deleted)
+	END ELSE BEGIN
+		INSERT INTO PacienteLog (IdPaciente, IdPais, FechaBaja)
+		SELECT IdPaciente, IdPais, GETDATE() FROM Deleted;
+	END
+
+
+INSERT INTO Paciente (Cedula, Nombre, Apellido, FechaNacimiento, Domicilio, IdPais, Telefono, Email, Observacion)
+VALUES ('235-9087267-7', 'Testing', 'Reyes', '12-01-2001', 'Calle 4 NO.27 Ensanche Ozama 2nd', 'DOM', NULL, 'juana.reyes@hotmail.com', NULL)
+
+DELETE FROM Paciente
+WHERE Nombre = 'Testing'
+
+SELECT * FROM PacienteLog
