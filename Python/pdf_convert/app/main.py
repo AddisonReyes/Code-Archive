@@ -8,6 +8,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app.config import get_settings
 from app.routes import compression, pages
+from app.services.i18n import normalize_language, translate
 
 
 logging.basicConfig(
@@ -23,10 +24,16 @@ app.include_router(pages.router)
 app.include_router(compression.router)
 
 
+@app.get("/health", tags=["health"])
+async def health_check() -> dict[str, str]:
+    return {"status": "ok"}
+
+
 @app.exception_handler(Exception)
 async def unexpected_error_handler(request: Request, exc: Exception) -> JSONResponse:
     logging.getLogger(__name__).exception("unexpected_error", extra={"path": request.url.path})
+    language = normalize_language(request.headers.get("x-app-language"))
     return JSONResponse(
         status_code=500,
-        content={"detail": "Ocurrio un error inesperado. Intentalo nuevamente."},
+        content={"detail": translate("error.unexpected", language)},
     )

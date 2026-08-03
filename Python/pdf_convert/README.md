@@ -1,67 +1,46 @@
-# Compresor de PDF
+# PDF Compressor
 
-Aplicacion web en Python para subir un PDF y comprimirlo intentando que el resultado quede por debajo de 700 KB (`716800` bytes). El sistema prioriza conservar texto vectorial y estructura del documento; si no puede alcanzar el objetivo sin degradar demasiado la legibilidad, devuelve el archivo valido mas pequeno generado y muestra una advertencia.
+Publish-ready FastAPI app for uploading a PDF and compressing it toward a 700 KB target (`716800` bytes). The compressor preserves vector text whenever possible, validates every generated result, and returns the smallest valid PDF when the target cannot be reached honestly.
 
-## Caracteristicas
+The web UI supports English and Spanish. English is the default language.
 
-- Backend con FastAPI y Uvicorn.
-- Frontend HTML, CSS y JavaScript puro renderizado con Jinja2.
-- Carga por selector de archivo o drag and drop.
-- Validacion de extension, MIME type, encabezado PDF y apertura con PyMuPDF.
-- Limite configurable de carga, por defecto 50 MB.
-- Compresion iterativa con Ghostscript.
-- Fallback final con PyMuPDF para rasterizar paginas cuando Ghostscript no alcanza.
-- Descarga mediante identificador UUID sin exponer rutas internas.
-- Limpieza de archivos temporales por expiracion y despues de la descarga.
-- Pruebas unitarias con pytest sin depender de Ghostscript instalado.
-- Docker y Docker Compose con Ghostscript incluido.
+## Features
 
-## Requisitos
+- FastAPI backend with Uvicorn.
+- HTML, CSS and vanilla JavaScript frontend rendered with Jinja2.
+- Drag and drop or file picker upload.
+- PDF-only validation by extension, MIME type, PDF header and PyMuPDF parsing.
+- Configurable 50 MB upload limit.
+- Iterative Ghostscript compression profiles.
+- PyMuPDF rasterization fallback as a last resort.
+- UUID-based download IDs with no internal paths exposed.
+- Temporary files cleaned after download and by expiration.
+- Railway-ready Docker deployment with `/health`.
+- Unit tests that mock compression behavior and do not require Ghostscript.
 
-- Python 3.12.
-- Ghostscript.
-- Docker y Docker Compose, si prefieres ejecucion containerizada.
-
-## Ejecucion con Docker
+## Local Run With Docker
 
 ```bash
 docker compose up --build
 ```
 
-La aplicacion quedara disponible en:
+Open the app at:
 
 ```text
 http://localhost:8000
 ```
 
-## Instalacion manual en Windows
+Do not open `http://0.0.0.0:8000` in a browser. `0.0.0.0` is a bind address used by the server/container, not a browser destination.
 
-1. Instala Python 3.12.
-2. Instala Ghostscript desde https://www.ghostscript.com/releases/gsdnld.html.
-3. Asegurate de que `gswin64c` o `gswin32c` este en el `PATH`, o define `GHOSTSCRIPT_PATH`.
-4. Crea y activa un entorno virtual:
+## Railway Deployment
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
+Railway deploys this repository from the `Dockerfile`. The `railway.json` file sets the Dockerfile builder and configures `/health` as the deployment healthcheck.
 
-## Instalacion manual en Linux
-
-```bash
-python3.12 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-sudo apt-get update
-sudo apt-get install ghostscript
-uvicorn app.main:app --reload
-```
-
-## Variables de entorno
-
-Copia `.env.example` a `.env` si quieres personalizar valores en ejecucion local.
+1. Push this repository to GitHub.
+2. In Railway, create a new project from the GitHub repository.
+3. Railway should detect the `Dockerfile` automatically.
+4. Keep `PORT` unset in Railway unless you explicitly want to override it; Railway injects `PORT` and the container listens on `0.0.0.0:$PORT`.
+5. Configure optional variables if needed:
 
 ```env
 MAX_UPLOAD_SIZE_MB=50
@@ -71,39 +50,116 @@ GHOSTSCRIPT_TIMEOUT_SECONDS=120
 GHOSTSCRIPT_PATH=gs
 ```
 
-En Windows puedes usar, por ejemplo:
+6. Deploy and verify:
+
+```text
+https://your-service.up.railway.app/health
+```
+
+7. Open the Railway public domain in the browser.
+
+Railway does not run `docker-compose.yml` directly. Compose is included for local development only.
+
+## Manual Installation On Windows
+
+1. Install Python 3.12.
+2. Install Ghostscript from https://www.ghostscript.com/releases/gsdnld.html.
+3. Ensure `gswin64c` or `gswin32c` is available in `PATH`, or set `GHOSTSCRIPT_PATH`.
+4. Create and run the environment:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+Open:
+
+```text
+http://localhost:8000
+```
+
+## Manual Installation On Linux
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+sudo apt-get update
+sudo apt-get install ghostscript
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+## Environment Variables
+
+```env
+PORT=8000
+MAX_UPLOAD_SIZE_MB=50
+TARGET_SIZE_BYTES=716800
+FILE_EXPIRATION_MINUTES=30
+GHOSTSCRIPT_TIMEOUT_SECONDS=120
+GHOSTSCRIPT_PATH=gs
+```
+
+- `PORT`: local server port. Railway provides this automatically.
+- `MAX_UPLOAD_SIZE_MB`: maximum upload size.
+- `TARGET_SIZE_BYTES`: compression goal in bytes.
+- `FILE_EXPIRATION_MINUTES`: how long result files remain available.
+- `GHOSTSCRIPT_TIMEOUT_SECONDS`: max time allowed for each Ghostscript process.
+- `GHOSTSCRIPT_PATH`: override Ghostscript executable path.
+
+Windows example:
 
 ```env
 GHOSTSCRIPT_PATH=gswin64c
 ```
 
-## Comandos utiles
+## API
+
+- `GET /`: renders the web UI.
+- `GET /health`: returns `{"status":"ok"}` for deployment healthchecks.
+- `POST /api/compress`: accepts one PDF file as multipart form data.
+- `GET /api/download/{download_id}`: downloads the compressed PDF.
+
+`POST /api/compress` accepts `X-App-Language: en` or `X-App-Language: es`. Missing or invalid values fall back to English.
+
+## Compression Algorithm
+
+1. Store the upload in a unique temporary operation directory.
+2. Validate PDF structure with PyMuPDF.
+3. Run Ghostscript with progressively smaller image resolutions and JPEG quality.
+4. Validate each output PDF and confirm the page count is unchanged.
+5. Stop at the first valid result under `716800` bytes.
+6. If Ghostscript cannot reach the target, rasterize pages with PyMuPDF as a last resort.
+7. If no attempt reaches the target, return the smallest valid generated PDF and show a warning.
+
+The app never deletes pages, truncates files, fakes sizes, adds watermarks or returns knowingly corrupt PDFs.
+
+## Tests
 
 ```bash
-uvicorn app.main:app --reload
 pytest
 ```
 
-## Algoritmo de compresion
+Useful Docker checks:
 
-1. Guarda el PDF en una carpeta temporal unica por operacion.
-2. Valida que el archivo tenga encabezado PDF, pueda abrirse con PyMuPDF y tenga paginas.
-3. Ejecuta Ghostscript con perfiles progresivos: 150, 120, 96, 72, 60 y 50 DPI, ajustando calidad JPEG y resolucion de imagenes.
-4. Valida cada resultado: debe abrirse correctamente y conservar la misma cantidad de paginas.
-5. Detiene el proceso en el primer resultado que queda por debajo de `716800` bytes, porque los perfiles estan ordenados de mayor a menor calidad.
-6. Si Ghostscript no alcanza el objetivo, aplica rasterizacion con PyMuPDF como ultimo recurso.
-7. Si ningun intento cumple el objetivo, selecciona el PDF valido mas pequeno generado y comunica que no se pudo alcanzar la meta.
+```bash
+docker compose config
+docker build .
+```
 
-## Limitaciones tecnicas
+## Security Notes
 
-No existe una forma honesta de garantizar que cualquier PDF quede por debajo de 700 KB. Documentos con muchas paginas, imagenes de alta densidad o contenido escaneado pueden superar ese limite incluso con baja calidad. La aplicacion no elimina paginas, no trunca el archivo, no falsifica el tamano y no devuelve PDFs corruptos para cumplir el objetivo.
+- Internal paths are generated from UUIDs.
+- Original filenames are sanitized and used only for download naming.
+- Ghostscript runs with argument lists and never with `shell=True`.
+- `-dSAFER`, `-dBATCH` and `-dNOPAUSE` are used.
+- Temporary files are removed after download or expiration.
+- File contents are not logged.
 
-## Seguridad y archivos temporales
+For production at larger scale, consider queue workers, object storage, rate limiting, antivirus scanning and external cleanup jobs. This MVP intentionally avoids Celery, Redis and persistent storage.
 
-- Los nombres internos se generan con UUID.
-- El nombre original se sanitiza y nunca se usa como ruta interna.
-- Ghostscript se ejecuta con `subprocess.run()` y lista de argumentos, sin `shell=True`.
-- Se usan opciones como `-dSAFER`, `-dBATCH`, `-dNOPAUSE`, `pdfwrite`, compresion y subset de fuentes.
-- Los archivos intermedios se eliminan al terminar.
-- El resultado expira por fecha de modificacion y tambien se elimina despues de descargarlo.
-- Para produccion se recomienda mover el procesamiento a Celery/RQ, usar Redis o almacenamiento externo, aplicar rate limiting y configurar antivirus o escaneo adicional si se reciben archivos de usuarios no confiables.
+## Technical Limits
+
+Not every PDF can be compressed below 700 KB while remaining readable. Large scanned documents, many-page files or image-heavy PDFs may stay above the target even at low quality. In those cases the app returns the smallest valid output and clearly reports that the target was not reached.

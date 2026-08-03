@@ -154,9 +154,9 @@ class PdfCompressor:
             shutil.copy2(attempt.path, final_path)
         reduction = self.calculate_reduction_percentage(original_size, attempt.size)
         message = (
-            "Objetivo alcanzado."
+            "Target reached."
             if attempt.target_reached
-            else "No fue posible alcanzar los 700 KB sin degradar mas la legibilidad."
+            else "It was not possible to reach 700 KB without degrading readability further."
         )
         return CompressionResult(
             output_path=final_path,

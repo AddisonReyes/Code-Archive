@@ -1,32 +1,45 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Compresor de PDF</title>
+    <title data-i18n="meta.title">PDF Compressor</title>
     <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}">
   </head>
   <body>
     <main class="app-shell">
+      <header class="topbar" aria-label="Application header">
+        <a class="brand" href="/" aria-label="PDF Compressor">PDF</a>
+        <div class="language-switcher" aria-label="Language selector">
+          <button class="language-button is-active" type="button" data-language="en">EN</button>
+          <button class="language-button" type="button" data-language="es">ES</button>
+        </div>
+      </header>
+
       <section class="intro">
-        <p class="eyebrow">PDF seguro y temporal</p>
-        <h1>Compresor de PDF</h1>
-        <p class="description">
-          Sube un PDF y la aplicacion intentara reducirlo por debajo de {{ target_size_kb }} KB sin eliminar paginas ni romper el documento.
+        <p class="eyebrow" data-i18n="hero.eyebrow">Secure temporary processing</p>
+        <h1 data-i18n="hero.title">PDF Compressor</h1>
+        <p class="description" data-i18n="hero.description">
+          Upload a PDF and the app will try to reduce it below {{ target_size_kb }} KB without deleting pages or corrupting the document.
         </p>
       </section>
 
       <section class="workspace" aria-labelledby="upload-title">
         <div class="upload-panel">
-          <h2 id="upload-title">Selecciona el archivo</h2>
-          <p class="limit">Tamano maximo permitido: {{ max_upload_size_mb }} MB</p>
+          <div class="panel-heading">
+            <h2 id="upload-title" data-i18n="upload.title">Choose your file</h2>
+            <p class="limit">
+              <span data-i18n="upload.limit">Maximum upload size</span>:
+              <strong>{{ max_upload_size_mb }} MB</strong>
+            </p>
+          </div>
 
           <form id="compress-form">
             <label id="drop-zone" class="drop-zone" for="pdf-file">
               <input id="pdf-file" name="file" type="file" accept="application/pdf,.pdf">
               <span class="drop-icon" aria-hidden="true">PDF</span>
-              <span class="drop-title">Arrastra tu PDF aqui</span>
-              <span class="drop-subtitle">o haz clic para elegirlo</span>
+              <span class="drop-title" data-i18n="upload.dropTitle">Drop your PDF here</span>
+              <span class="drop-subtitle" data-i18n="upload.dropSubtitle">or click to choose a file</span>
             </label>
 
             <div id="file-summary" class="file-summary" hidden>
@@ -34,8 +47,8 @@
               <strong id="file-size"></strong>
             </div>
 
-            <button id="compress-button" class="primary-button" type="submit" disabled>
-              Comprimir PDF
+            <button id="compress-button" class="primary-button" type="submit" disabled data-i18n="actions.compress">
+              Compress PDF
             </button>
           </form>
         </div>
@@ -43,7 +56,7 @@
         <div id="status-panel" class="status-panel" hidden>
           <div id="progress-area" class="progress-area">
             <div class="spinner" aria-hidden="true"></div>
-            <p id="status-text">Preparando compresion...</p>
+            <p id="status-text" data-i18n="progress.prepare">Preparing compression...</p>
             <div class="progress-track" aria-hidden="true">
               <div id="progress-bar" class="progress-bar"></div>
             </div>
@@ -53,28 +66,33 @@
             <div id="goal-badge" class="goal-badge"></div>
             <dl class="metrics">
               <div>
-                <dt>Tamano original</dt>
+                <dt data-i18n="metrics.original">Original size</dt>
                 <dd id="original-size">-</dd>
               </div>
               <div>
-                <dt>Tamano final</dt>
+                <dt data-i18n="metrics.compressed">Final size</dt>
                 <dd id="compressed-size">-</dd>
               </div>
               <div>
-                <dt>Reduccion</dt>
+                <dt data-i18n="metrics.reduction">Reduction</dt>
                 <dd id="reduction">-</dd>
               </div>
             </dl>
             <p id="result-message" class="result-message"></p>
             <div class="actions">
-              <a id="download-link" class="primary-button" href="#" download>Descargar</a>
-              <button id="reset-button" class="secondary-button" type="button">Procesar otro archivo</button>
+              <a id="download-link" class="primary-button" href="#" download data-i18n="actions.download">Download</a>
+              <button id="reset-button" class="secondary-button" type="button" data-i18n="actions.reset">Process another file</button>
             </div>
           </div>
         </div>
 
         <p id="error-message" class="error-message" role="alert" hidden></p>
       </section>
+
+      <footer class="site-footer">
+        <span data-i18n="footer.madeBy">Made by</span>
+        <a href="https://addisonreyes.com" rel="noopener noreferrer">Addison Reyes</a>
+      </footer>
     </main>
 
     <script src="{{ url_for('static', path='js/app.js') }}"></script>

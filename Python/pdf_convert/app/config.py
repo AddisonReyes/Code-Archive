@@ -21,7 +21,7 @@ def _int_env(name: str, default: int) -> int:
 
 @dataclass
 class Settings:
-    app_name: str = "Compresor de PDF"
+    app_name: str = "PDF Compressor"
     base_dir: Path = BASE_DIR
     temp_dir: Path = BASE_DIR / "temp"
     max_upload_size_mb: int = 50

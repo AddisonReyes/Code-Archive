@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
-from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi import APIRouter, File, Header, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from starlette.background import BackgroundTask
 
@@ -22,6 +22,7 @@ from app.services.file_service import (
     validate_pdf_file,
 )
 from app.services.ghostscript_service import GhostscriptService
+from app.services.i18n import normalize_language, pdf_validation_key, translate
 from app.services.pdf_compressor import CompressionError, PdfCompressor
 
 
@@ -31,14 +32,15 @@ settings = get_settings()
 
 
 @router.post("/compress")
-async def compress_pdf(file: UploadFile = File(...)):
+async def compress_pdf(file: UploadFile = File(...), x_app_language: str | None = Header(default=None)):
+    language = normalize_language(x_app_language)
     cleanup_expired_files(settings.temp_dir, settings.file_expiration_minutes)
 
     original_filename = sanitize_filename(file.filename or "documento.pdf")
     if not is_allowed_pdf_upload(original_filename, file.content_type):
         raise HTTPException(
             status_code=400,
-            detail="Solo se aceptan archivos PDF validos.",
+            detail=translate("error.invalid_upload", language),
         )
 
     download_id = generate_download_id()
@@ -78,18 +80,24 @@ async def compress_pdf(file: UploadFile = File(...)):
             "compressed_size": result.compressed_size,
             "reduction_percentage": result.reduction_percentage,
             "download_id": download_id,
-            "message": result.message,
+            "message": translate(
+                "result.target_reached" if result.target_reached else "result.target_not_reached",
+                language,
+            ),
         }
     except FileTooLargeError as exc:
         cleanup_path(operation_dir)
-        raise HTTPException(status_code=413, detail=str(exc)) from exc
+        raise HTTPException(
+            status_code=413,
+            detail=translate("error.file_too_large", language, max_mb=settings.max_upload_size_mb),
+        ) from exc
     except PDFValidationError as exc:
         cleanup_path(operation_dir)
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        raise HTTPException(status_code=400, detail=translate(pdf_validation_key(str(exc)), language)) from exc
     except CompressionError as exc:
         cleanup_path(operation_dir)
         logger.warning("compression_failed", extra={"download_id": download_id, "error": str(exc)})
-        raise HTTPException(status_code=422, detail=str(exc)) from exc
+        raise HTTPException(status_code=422, detail=translate("error.no_valid_compressed_pdf", language)) from exc
     except Exception:
         cleanup_path(operation_dir)
         raise
@@ -98,7 +106,7 @@ async def compress_pdf(file: UploadFile = File(...)):
 @router.get("/download/{download_id}")
 async def download_pdf(download_id: str):
     if not validate_download_id(download_id):
-        raise HTTPException(status_code=404, detail="Archivo no encontrado.")
+        raise HTTPException(status_code=404, detail=translate("error.invalid_download"))
 
     cleanup_expired_files(settings.temp_dir, settings.file_expiration_minutes)
     operation_dir = (settings.temp_dir / download_id).resolve()
@@ -106,13 +114,13 @@ async def download_pdf(download_id: str):
     metadata_path = operation_dir / "metadata.json"
 
     if not result_path.exists() or not metadata_path.exists():
-        raise HTTPException(status_code=404, detail="Archivo no encontrado o expirado.")
+        raise HTTPException(status_code=404, detail=translate("error.not_found_or_expired"))
 
     try:
         metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
         cleanup_path(operation_dir)
-        raise HTTPException(status_code=404, detail="Archivo no encontrado.") from exc
+        raise HTTPException(status_code=404, detail=translate("error.invalid_json")) from exc
 
     return FileResponse(
         result_path,

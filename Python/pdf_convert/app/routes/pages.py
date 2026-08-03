@@ -14,9 +14,9 @@ router = APIRouter()
 @router.get("/")
 async def index(request: Request):
     return templates.TemplateResponse(
+        request,
         "index.html",
         {
-            "request": request,
             "max_upload_size_mb": settings.max_upload_size_mb,
             "target_size_kb": settings.target_size_bytes // 1024,
         },
