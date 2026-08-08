@@ -535,6 +535,20 @@ WITH
     RECOVERY,
     STATS = 10;
 
+DECLARE @Fecha CHAR(12)
+DECLARE @Path NVARCHAR(100)
+DECLARE @Name NVARCHAR(20)
+
+SET @Fecha = CONVERT(CHAR(8), GETDATE(), 112) + REPLACE(CONVERT(CHAR(5), GETDATE(), 108), ':', '')
+SET @Path = 'D:\SQLBackups\CentroMedico' + @Fecha + '.bak'
+SET @Name = 'CentroMedico' + @Fecha
+
+BACKUP DATABASE CentroMedico
+TO DISK = @Path
+WITH 
+	COMPRESSION, 
+	NAME=@Name;
+
 -- Tabla temporal en memoria
 DECLARE @tabla TABLE (
 	id INT IDENTITY(1, 1),
