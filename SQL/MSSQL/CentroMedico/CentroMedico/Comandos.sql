@@ -697,7 +697,7 @@ WHERE IdPaciente = 6003
 
 
 ALTER TABLE PacienteLog ADD FechaBaja DATETIME
-
+ 
 CREATE OR ALTER TRIGGER PacientesBorrados ON Paciente
 FOR DELETE AS
 	IF EXISTS (
@@ -719,3 +719,18 @@ DELETE FROM Paciente
 WHERE Nombre = 'Testing'
 
 SELECT * FROM PacienteLog
+
+-- VIEWS
+
+CREATE VIEW VIEW_MedicosEspecialidades AS
+SELECT 
+	m.IdMedico,
+	m.Nombre,
+	m.Apellido,
+	me.IdEspecialidad,
+	me.Descripcion
+FROM Medico AS m
+INNER JOIN MedicoEspecialidad AS me
+	ON m.IdMedico = me.IdMedico
+
+SELECT * FROM VIEW_MedicosEspecialidades
