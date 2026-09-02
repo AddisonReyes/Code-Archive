@@ -2,15 +2,42 @@
 <SqlWorkbenchSqlProject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="Sistema Universitario">
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
-      <Items />
+      <Items>
+        <ConnectionNode Name="WIN11:WIN11\addis">
+          <Created>2026-09-02T15:10:07.3748224-04:00</Created>
+          <Type>SQL</Type>
+          <Server>WIN11</Server>
+          <UserName />
+          <Authentication>Windows Authentication</Authentication>
+          <InitialDB />
+          <LoginTimeout>15</LoginTimeout>
+          <TrustServerCertificate>True</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>SQL Server Management Studio</ApplicationName>
+        </ConnectionNode>
+      </Items>
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
-        <FileNode Name="SQLQuery1.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
+        <FileNode Name="Ejercicio01.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:WIN11:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>WIN11</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>SQLQuery1.sql</FullPath>
+          <FullPath>Ejercicio01.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Ejercicio02.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:WIN11:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>WIN11</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>Ejercicio02.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Ejercicio03.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:WIN11:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>WIN11</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>Ejercicio03.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>
