@@ -35,17 +35,23 @@
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
-        <FileNode Name="EJ06_CreatingDB.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:WIN11:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>WIN11</AssociatedConnSrvName>
+        <FileNode Name="27SELECTs.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:MSSQL01:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>MSSQL01</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>EJ06_CreatingDB.sql</FullPath>
+          <FullPath>27SELECTs.sql</FullPath>
         </FileNode>
-        <FileNode Name="EJ07_CreatingDB.sql">
+        <FileNode Name="Ejercicio06.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:WIN11:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>WIN11</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>EJ07_CreatingDB.sql</FullPath>
+          <FullPath>Ejercicio06.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Ejercicio07.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:WIN11:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>WIN11</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>Ejercicio07.sql</FullPath>
         </FileNode>
         <FileNode Name="InsertingData.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:MSSQL01:True</AssociatedConnectionMoniker>
@@ -53,11 +59,11 @@
           <AssociatedConnUserName />
           <FullPath>InsertingData.sql</FullPath>
         </FileNode>
-        <FileNode Name="SQLQuery1.sql">
+        <FileNode Name="QueryDeLaClase.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:MSSQL01:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>MSSQL01</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>SQLQuery1.sql</FullPath>
+          <FullPath>QueryDeLaClase.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>
