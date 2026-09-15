@@ -3,7 +3,21 @@
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
-        <ConnectionNode Name="WIN11:WIN11\addis">
+        <ConnectionNode Name="MSSQL01:MSSQL01\Administrator">
+          <Created>2026-09-11T15:22:08.4260575-04:00</Created>
+          <Type>SQL</Type>
+          <Server>MSSQL01</Server>
+          <UserName />
+          <Authentication>Windows Authentication</Authentication>
+          <InitialDB />
+          <LoginTimeout>15</LoginTimeout>
+          <TrustServerCertificate>True</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
+        <ConnectionNode Name="WIN11:MSSQL01\Administrator">
           <Created>2026-09-02T15:13:56.737203-04:00</Created>
           <Type>SQL</Type>
           <Server>WIN11</Server>
@@ -21,17 +35,29 @@
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
-        <FileNode Name="Ejercicio06.sql">
+        <FileNode Name="EJ06_CreatingDB.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:WIN11:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>WIN11</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>Ejercicio06.sql</FullPath>
+          <FullPath>EJ06_CreatingDB.sql</FullPath>
         </FileNode>
-        <FileNode Name="Ejercicio07.sql">
+        <FileNode Name="EJ07_CreatingDB.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:WIN11:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>WIN11</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>Ejercicio07.sql</FullPath>
+          <FullPath>EJ07_CreatingDB.sql</FullPath>
+        </FileNode>
+        <FileNode Name="InsertingData.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:MSSQL01:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>MSSQL01</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>InsertingData.sql</FullPath>
+        </FileNode>
+        <FileNode Name="SQLQuery1.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:MSSQL01:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>MSSQL01</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>SQLQuery1.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>

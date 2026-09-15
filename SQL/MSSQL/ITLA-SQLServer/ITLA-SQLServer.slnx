@@ -3,23 +3,23 @@
     <BuildType Name="Default" />
     <Platform Name="Default" />
   </Configurations>
-  <Project Path="../../../../../../Documents/GitHub/Code-Archive/SQL/MSSQL/ITLA-SQLServer/Banco y Préstamos/Banco y Préstamos.ssmssqlproj" Type="4f2e2c19-372f-40d8-9fa7-9d2138c6997a">
+  <Project Path="Banco y Préstamos/Banco y Préstamos.ssmssqlproj" Type="4f2e2c19-372f-40d8-9fa7-9d2138c6997a">
     <Platform Project="?" />
     <Build Project="false" />
   </Project>
-  <Project Path="../../../../../../Documents/GitHub/Code-Archive/SQL/MSSQL/ITLA-SQLServer/Hospital y Pacientes/Hospital y Pacientes.ssmssqlproj" Type="4f2e2c19-372f-40d8-9fa7-9d2138c6997a">
+  <Project Path="Hospital y Pacientes/Hospital y Pacientes.ssmssqlproj" Type="4f2e2c19-372f-40d8-9fa7-9d2138c6997a">
     <Platform Project="?" />
     <Build Project="false" />
   </Project>
-  <Project Path="../../../../../../Documents/GitHub/Code-Archive/SQL/MSSQL/ITLA-SQLServer/Hotel y Reservaciones/Hotel y Reservaciones.ssmssqlproj" Type="4f2e2c19-372f-40d8-9fa7-9d2138c6997a">
+  <Project Path="Hotel y Reservaciones/Hotel y Reservaciones.ssmssqlproj" Type="4f2e2c19-372f-40d8-9fa7-9d2138c6997a">
     <Platform Project="?" />
     <Build Project="false" />
   </Project>
-  <Project Path="../../../../../../Documents/GitHub/Code-Archive/SQL/MSSQL/ITLA-SQLServer/Sistema Universitario/Sistema Universitario.ssmssqlproj" Type="4f2e2c19-372f-40d8-9fa7-9d2138c6997a">
+  <Project Path="Sistema Universitario/Sistema Universitario.ssmssqlproj" Type="4f2e2c19-372f-40d8-9fa7-9d2138c6997a">
     <Platform Project="?" />
     <Build Project="false" />
   </Project>
-  <Project Path="../../../../../../Documents/GitHub/Code-Archive/SQL/MSSQL/ITLA-SQLServer/Tienda de Tecnología/Tienda de Tecnología.ssmssqlproj" Type="4f2e2c19-372f-40d8-9fa7-9d2138c6997a">
+  <Project Path="Tienda de Tecnología/Tienda de Tecnología.ssmssqlproj" Type="4f2e2c19-372f-40d8-9fa7-9d2138c6997a">
     <Platform Project="?" />
     <Build Project="false" />
   </Project>
