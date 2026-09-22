@@ -22,8 +22,8 @@
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
         <FileNode Name="Lab01.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:MSSQL01:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>MSSQL01</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>Lab01.sql</FullPath>
         </FileNode>
@@ -34,8 +34,8 @@
           <FullPath>Lab02.sql</FullPath>
         </FileNode>
         <FileNode Name="Lab03.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:MSSQL01:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>MSSQL01</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>Lab03.sql</FullPath>
         </FileNode>
@@ -58,8 +58,8 @@
           <FullPath>Lab06.sql</FullPath>
         </FileNode>
         <FileNode Name="Lab07.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:MSSQL01:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>MSSQL01</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>Lab07.sql</FullPath>
         </FileNode>
