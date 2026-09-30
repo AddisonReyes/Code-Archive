@@ -59,6 +59,12 @@
           <AssociatedConnUserName />
           <FullPath>InsertingData.sql</FullPath>
         </FileNode>
+        <FileNode Name="Optimizacion.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:MSSQL01:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>MSSQL01</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>Optimizacion.sql</FullPath>
+        </FileNode>
         <FileNode Name="QueryDeLaClase.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:MSSQL01:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>MSSQL01</AssociatedConnSrvName>

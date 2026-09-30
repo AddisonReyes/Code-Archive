@@ -7,126 +7,130 @@ FROM dbo.productos
 WHERE existencia <= 10
 ORDER BY existencia;
 
-SELECT *
+SELECT id, codigo, nombre, marca, id_categoria, precio, existencia, garantia, estado
 FROM dbo.productos
-WHERE marca IN ('HP', 'Canon', 'Samsung')
+WHERE marca IN (N'HP', N'Canon', N'Samsung')
 ORDER BY nombre;
 
 SELECT codigo, nombre, precio
 FROM dbo.productos
-WHERE nombre LIKE '%Monitor%';
+WHERE nombre LIKE N'Monitor%';
 
 --- Clientes ---
-SELECT *
+SELECT id, nombres, apellidos, cedula, telefono, correo, direccion, fecha_registro
 FROM dbo.clientes
-WHERE fecha_registro BETWEEN '03/01/2026' AND '06/30/2026';
+WHERE fecha_registro >= '20260301'
+  AND fecha_registro < '20260701';
 
 SELECT nombres, apellidos, direccion
 FROM dbo.clientes
-WHERE direccion LIKE '%Santo Domingo%'
+WHERE direccion LIKE N'Santo Domingo%'
 ORDER BY apellidos;
 
 SELECT DISTINCT TOP 10 correo
 FROM dbo.clientes
-WHERE correo IS NOT NULL
+WHERE correo IS NOT NULL;
 
 --- Proveedores ---
 SELECT id, nombre, telefono, estado
 FROM dbo.proveedores
-WHERE estado = 'Activo'
+WHERE estado = N'Activo'
 ORDER BY nombre;
 
-SELECT *
+SELECT id, nombre, rnc, telefono, correo, direccion, contacto, estado
 FROM dbo.proveedores
-WHERE direccion NOT IN ('Santo Domingo', 'Santiago');
+WHERE direccion NOT IN (N'Santo Domingo', N'Santiago');
 
 SELECT nombre, contacto
-FROM proveedores
-WHERE contacto LIKE '%a%';
+FROM dbo.proveedores
+WHERE contacto LIKE N'%a%';
 
 --- Empleados ---
 SELECT nombres, apellidos, cargo, salario
-FROM empleados
+FROM dbo.empleados
 WHERE salario >= 40000
 ORDER BY salario DESC;
 
-SELECT *
-FROM empleados
-WHERE estado = 'Activo' AND 
-	(cargo = 'Vendedor' OR cargo = 'Cajero');
+SELECT id, nombres, apellidos, cedula, cargo, salario, telefono, correo, estado
+FROM dbo.empleados
+WHERE estado = N'Activo'
+  AND cargo IN (N'Vendedor', N'Cajero');
 
 SELECT cargo, COUNT(*) AS cantidad
-FROM empleados
+FROM dbo.empleados
 GROUP BY cargo
 ORDER BY cargo;
 
 --- Categorias ---
 SELECT nombre, descripcion
-FROM categorias
-WHERE estado = 'Activo';
+FROM dbo.categorias
+WHERE estado = N'Activo';
 
-SELECT *
-FROM categorias
-WHERE fecha_creacion BETWEEN '01/01/2026' AND '12/31/2026'
+SELECT id, nombre, descripcion, fecha_creacion, estado, observacion
+FROM dbo.categorias
+WHERE fecha_creacion >= '20260101'
+  AND fecha_creacion < '20270101'
 ORDER BY fecha_creacion DESC;
 
 SELECT id, nombre, observacion
-FROM categorias
+FROM dbo.categorias
 WHERE observacion IS NOT NULL;
 
 --- Compras ---
 SELECT id, fecha, total
-FROM compras
+FROM dbo.compras
 WHERE total > 150000
 ORDER BY total DESC;
 
-SELECT *
-FROM compras
-WHERE metodo_pago IN ('Transferencia', 'Crédito');
+SELECT id, id_proveedor, fecha, subtotal, impuestos, total, metodo_pago, estado
+FROM dbo.compras
+WHERE metodo_pago IN (N'Transferencia', N'Crédito');
 
-SELECT *
-FROM compras
-WHERE id_proveedor = 1 AND 
-	fecha BETWEEN '01/01/2026' AND '03/31/2026';
+SELECT id, id_proveedor, fecha, subtotal, impuestos, total, metodo_pago, estado
+FROM dbo.compras
+WHERE id_proveedor = 1
+  AND fecha >= '20260101'
+  AND fecha < '20260401';
 
 --- Detalle compras ---
 SELECT id_compra, id_producto, cantidad, subtotal
-FROM detalle_compras
+FROM dbo.detalle_compras
 WHERE cantidad >= 5;
 
-SELECT *
-FROM detalle_compras
+SELECT id, id_compra, id_producto, cantidad, costo, subtotal, descuento
+FROM dbo.detalle_compras
 WHERE descuento = 0
 ORDER BY id_compra ASC;
 
 SELECT id_compra, COUNT(*) AS cantidad_productos
-FROM detalle_compras
+FROM dbo.detalle_compras
 GROUP BY id_compra;
 
 --- Ventas ---
 SELECT id, id_cliente, id_empleado, fecha, total
-FROM ventas
-WHERE fecha BETWEEN '08/01/2026' AND '08/31/2026';
+FROM dbo.ventas
+WHERE fecha >= '20260801'
+  AND fecha < '20260901';
 
-SELECT *
-FROM ventas
-WHERE metodo_pago IN ('Tarjeta', 'Transferencia')
+SELECT id, id_cliente, id_empleado, fecha, subtotal, impuestos, total, metodo_pago, estado
+FROM dbo.ventas
+WHERE metodo_pago IN (N'Tarjeta', N'Transferencia')
   AND total >= 50000;
 
-SELECT TOP 5 *
-FROM ventas
+SELECT TOP 5 id, id_cliente, id_empleado, fecha, subtotal, impuestos, total, metodo_pago, estado
+FROM dbo.ventas
 ORDER BY fecha DESC;
 
 --- Detalle ventas ---
 SELECT id_venta, id_producto, cantidad, precio, descuento, subtotal
-FROM detalle_ventas
+FROM dbo.detalle_ventas
 WHERE descuento > 0;
 
-SELECT *
-FROM detalle_ventas
+SELECT id, id_venta, id_producto, cantidad, precio, descuento, subtotal
+FROM dbo.detalle_ventas
 WHERE id_producto IN (1, 5, 10, 11);
 
 SELECT id_venta, COUNT(*) AS lineas_venta
-FROM detalle_ventas
+FROM dbo.detalle_ventas
 GROUP BY id_venta
 ORDER BY id_venta DESC;
